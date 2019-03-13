@@ -393,34 +393,19 @@ that.sendMsg = function(msg) {
 
 
 that.connect = function(username, password, server) {
-    var host = 'war2.info',
-        port = 0,
+    var host = 'xpam.pl',
+        port = 33333,
         username = username,
         password = password,
         channel = '',
         clientTag = '',
-        scheme = "wss://", uri;
+        scheme = "ws://", uri;
     // This checks the server which was selected from the server dropdown
     // the port is the websockify instance to connect to
-    if (server == 'server.war2.ru') {
-      port = '6112';
-      channel = 'war2bne';
-      clientTag = 'W2BN'
-    }
-    if (server == 'backup.war2.ru') {
-      port = '6113';
-      channel = 'war2bne';
-      clientTag = 'W2BN'
-    }
-    if (server == 'server.war2.me') {
-      port = '6114';
-      channel = 'war2bne';
-      clientTag = 'W2BN'
-    }
-    if (server == 'backup.war2.me') {
-      port = '6115';
-      channel = 'war2bne';
-      clientTag = 'W2BN'
+    if (server == 'server.eurobattle.net') {
+      port = '33333';
+      channel = 'w3';
+      clientTag = 'W3XP'
     }
     Util.Debug(">> connect");
     if (ws) {
@@ -430,7 +415,7 @@ that.connect = function(username, password, server) {
     uri = scheme + host + ":" + port;
     console.log("connecting to " + uri);
 
-    ws.open(uri);
+    ws.open(uri, subprotocols=["binary", "base64"])
     sendCmd("\r\n");
     sendCmd(username);
     sendCmd("\r\n");
