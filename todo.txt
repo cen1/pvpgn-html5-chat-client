@@ -1,0 +1,8 @@
+TODO List
+
+- Scroll to last message, instead of the middle
+- when previous typed value selected on login screen, background of input becomes white
+- check if data is correct before login, doesnt work
+- login button font
+- display bmp with transparency
+- custom borders

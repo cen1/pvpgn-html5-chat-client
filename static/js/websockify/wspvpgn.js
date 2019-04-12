@@ -3,6 +3,13 @@
  * by rchase
  * https://github.com/reillychase/pvpgn_html5_chat_client
  */
+ 
+ var chat_style_whisper = '"color: #00eb00"';
+ var chat_style_server = '"color: #84dbff"';
+ var chat_style_gold = '"color: #efc710"';
+ var chat_style_basic = '"color: #ffffff"';
+ var chat_style_error = '"color: #ff0000"';
+ var chat_style_admin = '"color: #42aaf7"';
 
 function PVPGN(target, connect_callback, disconnect_callback, username) {
 
@@ -48,6 +55,60 @@ function do_recv() {
         recvMsg(ws.rQshiftStr((i-rQi) + 1));
     }
 
+}
+
+function updateUserlist(in_channel) {
+	chatroom = '';
+	for (var i = 0; i < in_channel.length; i++) {
+ 		addToUserlist(in_channel[i]);
+	}
+}
+
+function getUserIcon(user) {
+	if (user == 'la-dota' || user == 'lagabuse.com') {
+		return 'bnet-blizzard';
+	}
+	
+	return 'bnet-war3x';
+}
+
+function isAdmin(user) {
+	if (user == 'la-dota' || user == 'lagabuse.com') {
+		return true;
+	}
+	
+	return false;
+}
+
+function addToUserlist(new_user) {
+
+	//Icon to be displayed next to username
+	
+	var icon = getUserIcon(new_user);
+	
+	var iconPath = '"static/icons/'+icon+'.bmp"';
+	
+	//Border
+	
+	var borderClass = 'user-wrap-general';
+	
+	if (isAdmin(new_user)) {
+		borderClass = 'user-wrap-admin';
+	}
+	
+	
+	//Add icon + username as list item to userlist
+	
+	chatroom = chatroom + 
+	'<li>' +
+	'<div class="user-wrap '+borderClass+'">' +
+		'<div class="user-icon-container">' +
+			'<img class="user-icon-image" src='+iconPath+'>' +
+		'</div>' +
+		'<a href="#">' + escapeHtml(new_user) + '</a>' +
+		'<div class="user-icon-helper"></div>' +
+	'</div>' +
+	'</li>'
 }
 
 // Handle a PVPGN message
@@ -140,7 +201,7 @@ function recvMsg(msg) {
 
     // Catch all to turn anything that didn't match a regex into a yellow msg from server
     if (whisper_to == null && whisper_from == null && success == null && failed == null && joining_channel == null && empty2 == null && username2 == null && password2 == null && bot == null && sorry == null && enter == null && chat == null && is_here == null && banned == null && enters == null && error == null && leaves == null && quit == null && kicked == null) {
-      new_msg = '<span style="color: #ffff00;">' + escapeHtml(msg) + '</span>'
+      new_msg = '<span style='+chat_style_server+'>' + escapeHtml(msg) + '</span>'
       writeToChannel(new_msg);
       flag = 0;
     }
@@ -151,7 +212,7 @@ function recvMsg(msg) {
     }
 
     if (whisper_to != null) {
-      new_msg = '<span style="color: #00ffff;">&ltTo: ' + unescape(escapeHtml(whisper_to[1])) + '&gt</span><span style="color: gray"> ' + unescape(escapeHtml(whisper_to[2])) + '</span>'
+      new_msg = '<span style='+chat_style_gold+'>You whisper to ' + unescape(escapeHtml(whisper_to[1])) + ': </span><span style='+chat_style_whisper+'> ' + unescape(escapeHtml(whisper_to[2])) + '</span>'
       writeToChannel(new_msg);
       whisper_to = whisper_to_regex.exec(msg);
       flag = 0;
@@ -159,7 +220,7 @@ function recvMsg(msg) {
     }
 
     if (whisper_from != null) {
-      new_msg = '<span style="color: #ffff00;">&ltFrom: ' + unescape(escapeHtml(whisper_from[1])) + '&gt</span><span style="color: gray"> ' + unescape(escapeHtml(whisper_from[2])) + '</span>'
+      new_msg = '<span style='+chat_style_gold+'>' + unescape(escapeHtml(whisper_from[1])) + ' whispers: </span><span style='+chat_style_whisper+'> ' + unescape(escapeHtml(whisper_from[2])) + '</span>'
       writeToChannel(new_msg);
       whisper_from = whisper_from_regex.exec(msg);
       flag = 0;
@@ -173,7 +234,7 @@ function recvMsg(msg) {
       $D('msg').style.display = 'block';
       $D('connectButtonWrap').style.display = 'none';
       $D('html').classList.add("black");
-      Materialize.toast('Connected!', 1000, "green") // 4000 is the duration of the toast
+      toast('Connected!', 1, 1000);
       success = success_regex.exec(msg);
       flag = 0;
     };
@@ -184,7 +245,7 @@ function recvMsg(msg) {
       $D('pvpgn').style.display = 'none';
       $D('msg').style.display = 'none';
       $D('html').classList.remove("black");
-      Materialize.toast('Login failed', 4000, "red") // 4000 is the duration of the toast
+      toast('Login failed!', 0, 4000);
       failed = failed_regex.exec(msg);
       that.disconnect();
       flag = 0;
@@ -197,7 +258,7 @@ function recvMsg(msg) {
       $D('pvpgn').style.display = 'none';
       $D('msg').style.display = 'none';
       $D('html').classList.remove("black");
-      Materialize.toast("PvPGN server blocked telnet", 4000, "red") // 4000 is the duration of the toast
+      toast("PvPGN server blocked telnet", 0, 4000);
       no_bot = no_bot_regex.exec(msg);
       that.disconnect();
       flag = 0;
@@ -205,7 +266,7 @@ function recvMsg(msg) {
 
     while (chat != null) {
       if (not_whisper == 1) {
-      new_msg = '<span style="color: #ffff00;">&lt;' + escapeHtml(chat[1]) + '&gt;</span><span style="color: #fff;"> ' + unescape(escapeHtml(chat[2])) + '</span>'
+      new_msg = '<span style='+chat_style_gold+'>' + escapeHtml(chat[1]) + ': </span><span style='+chat_style_basic+'> ' + unescape(escapeHtml(chat[2])) + '</span>'
       writeToChannel(new_msg);
       }
       chat = chat_regex.exec(msg);
@@ -214,7 +275,7 @@ function recvMsg(msg) {
 
     while (is_here != null) {
 
-      chatroom = chatroom + '<li><a href="#"">' + escapeHtml(is_here[1]) + '</a></li>'
+      addToUserlist(is_here[1]);
 
       in_channel.push(is_here[1]);
 
@@ -224,8 +285,8 @@ function recvMsg(msg) {
     };
 
     while (enters != null) {
-
-      chatroom = chatroom + '<li><a href="#"">' + escapeHtml(enters[1]) + '</a></li>'
+    
+      addToUserlist(enters[1]);
 
       in_channel.push(enters[1]);
 
@@ -241,11 +302,7 @@ function recvMsg(msg) {
         in_channel.splice(index, 1);
       }
 
-      chatroom = '';
-      for (var i = 0; i < in_channel.length; i++) {
-            chatroom = chatroom + '<li><a href="#"">' + escapeHtml(in_channel[i]) + '</a></li>'
-      }
-
+     updateUserlist(in_channel);
 
       kicked = kicked_regex.exec(msg);
 
@@ -259,11 +316,7 @@ function recvMsg(msg) {
         in_channel.splice(index, 1);
       }
 
-      chatroom = '';
-      for (var i = 0; i < in_channel.length; i++) {
-            chatroom = chatroom + '<li><a href="#"">' + escapeHtml(in_channel[i]) + '</a></li>'
-      }
-
+      updateUserlist(in_channel);
 
       banned = banned_regex.exec(msg);
 
@@ -277,11 +330,7 @@ function recvMsg(msg) {
         in_channel.splice(index, 1);
       }
 
-      chatroom = '';
-      for (var i = 0; i < in_channel.length; i++) {
-            chatroom = chatroom + '<li><a href="#"">' + escapeHtml(in_channel[i]) + '</a></li>'
-      }
-
+      updateUserlist(in_channel);
 
       leaves = leaves_regex.exec(msg);
 
@@ -295,11 +344,7 @@ function recvMsg(msg) {
         in_channel.splice(index, 1);
       }
 
-      chatroom = '';
-      for (var i = 0; i < in_channel.length; i++) {
-            chatroom = chatroom + '<li><a href="#"">' + escapeHtml(in_channel[i]) + '</a></li>'
-      }
-
+      updateUserlist(in_channel);
 
       quit = quit_regex.exec(msg);
 
@@ -312,7 +357,7 @@ function recvMsg(msg) {
 
       in_channel = [];
 
-      new_msg = '<span style="color: #00ef00;">Joining channel: ' + escapeHtml(joining_channel[1]) + '</span>'
+      new_msg = '<span style='+chat_style_basic+'>Joining channel: </span><span style='+chat_style_gold+'>' + escapeHtml(joining_channel[1]) + '</span>'
       writeToChannel(new_msg);
       joining_channel = joining_channel_regex.exec(msg);
 
@@ -321,7 +366,7 @@ function recvMsg(msg) {
 
     while (error != null) {
 
-      new_msg = '<span style="color: #ff0000;">' + escapeHtml(error[1]) + '</span>'
+      new_msg = '<span style='+chat_style_error+'>' + escapeHtml(error[1]) + '</span>'
       writeToChannel(new_msg);
       error = error_regex.exec(msg);
 
@@ -330,7 +375,7 @@ function recvMsg(msg) {
 
     while (broadcast != null) {
 
-      new_msg = '<span style="color: #ff0000;">' + escapeHtml(broadcast[1]) + '</span>'
+      new_msg = '<span style='+chat_style_admin+'>' + escapeHtml(broadcast[1]) + '</span>'
       writeToChannel(new_msg);
       broadcast = broadcast_regex.exec(msg);
 
@@ -352,9 +397,12 @@ function writeToChannel(msg) {
     for(var i=0; i<msgLog.length; ++i){
           full_list = full_list + msgLog[i] + "<br>"
     }
+    
+    var chatbox = $D("pvpgn");
 
-    $D("pvpgn").innerHTML = full_list;
-    window.scrollTo(0,document.body.scrollHeight);
+    chatbox.innerHTML = full_list;
+   	chatbox.scrollTop = chatbox.scrollHeight;
+    //window.scrollTo(0,document.body.scrollHeight);
 
 }
 
@@ -386,25 +434,27 @@ that.sendMsg = function(msg) {
     };
 
     if (write == 1) {
-      writeToChannel('<span style="color: #00ffff;">&lt;' + username + '&gt;</span><span style="color: white;" > ' + escapeHtml(msg) + '</span>')
+      writeToChannel('<span style='+chat_style_gold+'>' + username + ': </span><span style='+chat_style_basic+' > ' + escapeHtml(msg) + '</span>')
     }
     sendCmd(msg);
 }
 
 
-that.connect = function(username, password, server) {
+that.connect = function(username, password, server, channel) {
     var host = 'xpam.pl',
         port = 33333,
         username = username,
         password = password,
-        channel = '',
+        channel = channel,
         clientTag = '',
         scheme = "ws://", uri;
-    // This checks the server which was selected from the server dropdown
-    // the port is the websockify instance to connect to
+    
+    if (channel == '') {
+    	channel = 'w3';
+    }
+    //Port is the websockify instance to connect to
     if (server == 'server.eurobattle.net') {
       port = '33333';
-      channel = 'w3';
       clientTag = 'W3XP'
     }
     Util.Debug(">> connect");

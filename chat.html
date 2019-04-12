@@ -1,152 +1,347 @@
 <!DOCTYPE html>
 <html id="html">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>your-site.com</title>
-    <!-- CSS  -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="/static/js/websockify/util.js"></script> 
-    <script src="/static/js/websockify/webutil.js"></script> 
-    <script src="/static/js/websockify/websock.js"></script>
-    <script src="/static/js/websockify/wspvpgn.js"></script> 
-  </head>
-  <body>
-    <div id="app">
-      <div class="navbar-fixed">
-      <nav class="light-blue lighten-1" role="navigation">
-
-    <div class="nav-wrapper container"><a href="/" id="logo-container" href="#" class="brand-logo">site.com</a>
-      <ul class="right hide-on-med-and-down">
-        <li class="white-text">Your site's main nav goes here</li>
-      </ul>
-      <div id="chatroom-mobile" class="side-nav">
-          <ul id="chatroom-ul">
-
-          </ul>
-    </div>
-      <ul id="nav-mobile" class="side-nav">
-        <li class="black-text">Your site's main nav for mobile goes here</li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-  
-      <a id="chatroom" href="#" data-activates="chatroom-mobile" class="hide button-collapse" style="float: right; display: block"><i class="material-icons">group</i></a>
-      <a id="logout"onclick="disconnect()" href="#" class="hide" style="float: right"><i class="material-icons">exit_to_app</i></a>
-
-    </div>
-  </nav>
-  </div>
-<div class="row" id='top'>
-<div class="container">
-
-
-                <div id="login" class="col s12 m8 offset-m2 l6 offset-l3">
- <div id="usernameWrap" class="input-field col s12">
-          <input id="username" type="text">
-          <label for="username">Username</label>
-</div>
-        <div id="passwordWrap" class="input-field col s12">
-          <input id="password" type="password">
-          <label for="password">Password</label>
-        </div>
-
-          <select id="server" class="browser-default">
-            <option value="server.eurobattle.net" selected>server.eurobattle.net</option>
-          </select>
-
-                  <br>
-        <div id="connectButtonWrap">
-        <input id='connectButton' class="btn waves-effect waves-light blue" type='button' value='Login'>
-        </div>
-            </div>
-
-
-        </div>
-</div>
-
-
-        <div id="pvpgn" class="chat-box"></div>
-
-
-        </div>
-
-
-        <div class="input-field col s12 chat-footer">
-        <input style="display: none" id="msg" type="text" size=80 onkeypress="sendMsg();">
-</div>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+		<title>PvPGN Chat</title>
+		<!-- CSS  -->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="./static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		<link href="./static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="./static/js/websockify/util.js"></script> 
+		<script src="./static/js/websockify/webutil.js"></script> 
+		<script src="./static/js/websockify/websock.js"></script>
+		<script src="./static/js/websockify/wspvpgn.js"></script> 
+	</head>
+	<body>
+		<div id="app">
+			<div class="navbar-fixed">
+				<nav class="white lighten-1" role="navigation">
+					<div class="nav-wrapper container">
+						<a href="www.eurobattle.net" id="logo-container" class="brand-logo">
+						<img src="./static/images/logo.png" class="logo-img">
+						</a>
+						<a id="logout"onclick="disconnect()" href="#" class="hide" style="float: right"><i class="material-icons">exit_to_app</i></a>
+					</div>
+				</nav>
+			</div>
+			<div class="row" id='top'>
+				<div class="container">
+					<div id="login" class="col s12 m8 offset-m2 l6 offset-l3">
+						<br>
+						<label class="label-basic">Username</label> 
+						<br>
+						<div id="usernameWrap" class="input-container-basic">
+							<input id="username"
+								type="text" value=''>
+						</div>
+						<br>
+						<label class="label-basic">Password</label> 
+						<br>
+						<div id="passwordWrap" class="input-container-basic">
+							<input id="password"
+								type="password" value=''>
+						</div>
+						<br>
+						<label class="label-basic">Channel</label> 
+						<br>
+						<div id="channelWrap" class="input-container-basic">
+							<input id="channel"
+								type="text" value='w3'>
+						</div>
+						<br>
+						<br>
+						<div id="connectButtonWrap">
+							<input id='connectButton' class="button-login" type='button'
+								value=''>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="ui" class="ui-container">
+				<div id="chatWindow" class="chat-window">
+					<div id="pvpgn" class="chat-box"></div>
+					<div id="userlist" class="userlist-box">
+						<ul id="chatroom-ul">
+						</ul>
+					</div>
+					<div class="input-container-chat">
+						<input style="display: inline-block" id="msg" type="text" size=80 onkeypress="sendMsg();">
+					</div>
+				</div>
+			</div>
+		</div>
 
 
-    <style>
-    #top {
-        margin: 0px;
-    }
-    #pvpgn {
-        display: none;
-        background-color: black;
-        color: white;
-        padding: 0px 0px 48px 0px;
-    }
-    body *, * {
-      box-sizing: border-box !important;
-    }
-    #login {
-        margin-top: 20px;
-    }
-    #msg {
-        background-color: transparent;
-        border: none;
-        border: 1px solid #9e9e9e;
-        height: 48px;
-        width: 100%;
-        font-size: 1rem;
-        padding: 0;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-        -webkit-box-sizing: content-box;
-        box-sizing: content-box;
-        -webkit-transition: all 0.3s;
-        transition: all 0.3s;
-        margin: 0px;
-    }
-    .chat-footer{
-      background-color: white !important;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-    .chat-box {
-      height: 100%;
-      overflow: auto;
-      overflow-x: hidden;
-      background-color: black;
-    }
-    /* label focus color */
-    .input-field input[type=text]:focus + label {
-         color: #2196f3 !important;
-    }
-    /* label underline focus color */
-   .input-field input[type=text]:focus {
-     border-bottom: 1px solid #2196f3 !important;
-     box-shadow: 0 1px 0 0 #2196f3 !important;
-   }
-    .input-field input[type=password]:focus + label {
-         color: #2196f3 !important;
-    }
-    /* label underline focus color */
-   .input-field input[type=password]:focus {
-     border-bottom: 1px solid #2196f3 !important;
-     box-shadow: 0 1px 0 0 #2196f3 !important;
-   }
-    #sidenav-overlay { z-index: 1; }
+<style>
+#top {
+	margin: 0px;
+}
 
-    </style>
+body {
+	background-image: url("./static/images/background_login.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: black;
+}
+
+body *, * {
+	box-sizing: border-box !important;
+}
+
+#login {
+	margin-top: 0px;
+	transform: scale(0.7);
+}
+
+#msg {
+	background-color: transparent;
+	height: 48px !important;
+	width: 100%;
+	font-size: 1rem;
+	padding: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	border-width: 0;
+	display: block;
+	margin: 10px;
+}
+
+#toast-container {
+	top: auto !important;
+	right: auto !important;
+	bottom: 0%;
+	left: 80%;
+	//bottom: 88%;
+	//left: 68%;
+	//background-image: url("./static/images/slot.png") !important;
+	//background-color: transparent !important;
+}
+
+#toast-container .toast {
+	//background-color: transparent !important;
+	background-color: dimgray;
+}
+
+.button-login {
+	border: 0;
+	font-style: normal;
+	font-size: 0;
+	text-transform: inherit;
+	padding: 18px 56px;
+	width: 184px;
+	height: 55px;
+	background: transparent;
+	background-image: url("./static/images/login.png");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.navbar-fixed nav {
+    background-image: url("./static/images/menu_empty.png") !important;
+    background-repeat: no-repeat !important;
+    background-size: 100% 100% !important; 
+    background-position: 50% 50% !important;
+}
+
+input[type="text"], input[type="password"] {
+  border-bottom: none !important;
+  outline: none !important;
+  margin: 0px !important;
+  padding-right: 20px !important;
+  padding-left: 20px !important;
+  width: 100% !important;
+  height: 80px !important;
+  font-weight: bold !important;
+  font-size: 20px !important;
+  color: white !important;
+  border-image-slice: 15 15 15 15 fill !important; 
+  border-image-width: 12px 12px 12px 12px !important; 
+  border-image-outset: 0px 0px 0px 0px !important; 
+  border-image-repeat: round round !important; 
+  border-image-source: url("./static/images/chat_input_border.png") !important;
+}
+
+.input-container-basic {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.input-container-chat {
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.6);
+	width: 80%;
+	//height: 10%;
+	bottom: 4%;
+}
+
+.input-w3 {
+	border-width: 0;
+	display: block;
+	margin: 10px;
+	background-color: blue;
+}
+
+.user-wrap {
+	width: 100%;
+	height: 100%;
+	white-space: nowrap;
+	background-color: rgba(0, 0, 0, 1);
+	border-image-slice: 15 15 15 15 fill; 
+	border-image-width: 12px 12px 12px 12px; 
+	border-image-outset: 0px 0px 0px 0px; 
+	border-image-repeat: round round; 
+}
+
+.user-wrap-general {
+	border-image-source: url("./static/images/userlist_border.png");
+}
+
+.user-wrap-admin {
+	border-image-source: url("./static/images/userlist_border.png");
+	//border-image-source: url("./static/images/userlist_border_admin.png");
+}
+
+.user-icon-container {
+	width: 64px;
+	height: 20px;
+	overflow: hidden;
+	vertical-align: middle;
+    display: inline-block;
+    white-space: normal;
+}
+
+.user-icon-image {
+	position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 42px;
+}
+
+.user-icon-helper {
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+
+li {
+	list-style-type: none;
+	width: 100%;
+	height: 42px;
+}
+
+.userlist-border {
+	background-image: url=("./static/images/userlist_border.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+
+.label-basic {
+	color: white;
+	font-style: bold;
+	font-size: 1.5rem;
+	font-family: inherit;
+}
+
+.chat-box {
+	//background-color: rgba(0, 255, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.4);
+	width:68%;
+	height: 85%;
+	display: inline-block;
+	float: left;
+	max-height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	color: white;
+	padding: 0px 10px 100px 10px;
+	scrollbar-color: dark;
+	
+	border-image-slice: 15 15 15 15 fill; 
+	border-image-width: 12px 12px 12px 12px; 
+	border-image-outset: 0px 0px 0px 0px; 
+	border-image-repeat: round round; 
+	border-image-source: url("./static/images/chat_input_border.png");
+}
+
+.userlist-box {
+	padding-left: 10px;
+	padding-right: 10px;
+	display: inline-block;
+	//background-color: rgba(0, 0, 255, 0.5);
+	background-color: rgba(0, 0, 0, 1);
+	float: left;
+	width: 30%;
+	height: 85%;
+	overflow-y: auto;
+	position: relative;
+	left: 2%;
+	scrollbar-color: dark;
+	
+	border-image-slice: 15 15 15 15 fill; 
+	border-image-width: 12px 12px 12px 12px; 
+	border-image-outset: 0px 0px 0px 0px; 
+	border-image-repeat: round round; 
+	border-image-source: url("./static/images/chat_input_border.png");
+}
+
+.chat-window {
+	position: relative;
+	margin: 20px;
+	padding: 20px;
+	width: 95%;
+	height: 90%;
+	background-color: rgba(0, 0, 0, 0.4);
+	border-image-slice: 15 15 15 15 fill; 
+	border-image-width: 12px 12px 12px 12px; 
+	border-image-outset: 0px 0px 0px 0px; 
+	border-image-repeat: round round; 
+	border-image-source: url("./static/images/chat_input_border.png");
+}
+
+.ui-container {
+	position: absolute;
+	width: 100%;
+	height: 90%;
+	background-image: url("./static/images/background.png");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.input-field input[type=password]:focus+label {
+	color: #2196f3 !important;
+}
+/* label underline focus color */
+.input-field input[type=password]:focus {
+	border-bottom: 1px solid #2196f3 !important;
+	box-shadow: 0 1px 0 0 #2196f3 !important;
+}
+
+</style>
     <!-- built files will be auto injected -->
     <!--  Scripts-->
 
     <script>
+    
+    	function toast(text, index, duration) {  	
+    		$('.toast').hide();
+        	
+        	var toast_image_path = './static/images/error.png';
+        	
+        	if (index == 1) {
+        		toast_image_path = './static/images/message.png';
+        	}
+        	
+        	var toast_image = '<img width: 60%; max-width: 100%; height: auto; src="'+toast_image_path+'">';
+        	
+        	Materialize.toast(text+' '+toast_image, duration);
+    	}
 
         var pvpgn;
         function sendMsg() {
@@ -158,14 +353,17 @@
             }
         }
 
-        function connect() {
+        function connect() {        	
+        	console.log("trying to connect");
+        	
             $D('connectButton').disabled = true; 
             var ret;
             ret  = pvpgn.connect($D('username').value,
                                $D('password').value,
-                               $D('server').value);
+                               'server.eurobattle.net',
+                               $D('channel').value);
             if (! ret) { 
-              Materialize.toast('Connection failed', 4000, "red"); // 4000 is the duration of the toast
+              toast('Connection failed', 0, 4000);
               $D('msg').disabled = true;
               $D('connectButton').disabled = false;
               $D('connectButton').value = "Login";
@@ -185,7 +383,7 @@
             $D('pvpgn').style.display = 'none';
             $D('msg').style.display = 'none';
             $D('html').classList.remove("black");
-            Materialize.toast('Logged out', 1000, "green") // 4000 is the duration of the toast
+            toast('Logged out', 1, 1000);
             pvpgn.disconnect();
         }
         function connected() {
@@ -194,7 +392,9 @@
             $D('connectButton').disabled = false;
             $D('connectButtonWrap').style.display = 'none';
             $D('logout').classList.remove("hide");
-            $D('chatroom').classList.remove("hide");
+            $D('userlist').classList.remove("hide");
+            $D('chatWindow').classList.remove("hide");
+            $D('ui').classList.remove("hide");
 
         }
         function disconnected() {
@@ -212,8 +412,10 @@
             $D('connectButton').onclick = connect;
             $D('msg').style.display = 'none';
             $D('logout').classList.add("hide");
-            $D('chatroom').classList.add("hide");
             $D('pvpgn').style.display = 'none';
+            $D('userlist').classList.add("hide");
+            $D('chatWindow').classList.add("hide");
+            $D('ui').classList.add("hide");
         }
         window.onload = function() {
             console.log("onload");
@@ -224,8 +426,8 @@
         }
 
     </script>
-    <script src="/static/js/materialize.min.js"></script>
-    <script src="/static/js/init.js"></script>
+    <script src="./static/js/materialize.min.js"></script>
+    <script src="./static/js/init.js"></script>
   </body>
 </html>
 

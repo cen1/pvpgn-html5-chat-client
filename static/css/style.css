@@ -12,3 +12,18 @@
 .icon-block .material-icons {
 	font-size: inherit;
 }
+
+textarea:focus, input:focus {
+  border-bottom: none!important;
+  box-shadow: none!important;
+  outline: none!important;
+}
+
+.logo-img {
+    max-height: 64px!important;
+    padding: 15px 0!important;
+}
+
+.brand-logo {
+	left: 20%;
+}
