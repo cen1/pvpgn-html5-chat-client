@@ -9,17 +9,18 @@
 		<link href="./static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 		<link href="./static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="./static/js/config.js"></script> 
 		<script src="./static/js/websockify/util.js"></script> 
 		<script src="./static/js/websockify/webutil.js"></script> 
 		<script src="./static/js/websockify/websock.js"></script>
-		<script src="./static/js/websockify/wspvpgn.js"></script> 
+		<script src="./static/js/websockify/wspvpgn.js"></script>
 	</head>
 	<body>
 		<div id="app">
 			<div class="navbar-fixed">
 				<nav class="white lighten-1" role="navigation">
 					<div class="nav-wrapper container">
-						<a href="www.eurobattle.net" id="logo-container" class="brand-logo">
+						<a href="http://www.eurobattle.net" id="logo-container" class="brand-logo">
 						<img src="./static/images/logo.png" class="logo-img">
 						</a>
 						<a id="logout"onclick="disconnect()" href="#" class="hide" style="float: right"><i class="material-icons">exit_to_app</i></a>
@@ -61,7 +62,9 @@
 			</div>
 			<div id="ui" class="ui-container">
 				<div id="chatWindow" class="chat-window">
-					<div id="pvpgn" class="chat-box"></div>
+					<div class="chat-box-wrapper">
+						<div id="pvpgn" class="chat-box"></div>
+					</div>
 					<div id="userlist" class="userlist-box">
 						<ul id="chatroom-ul">
 						</ul>
@@ -95,6 +98,21 @@ body *, * {
 	transform: scale(0.7);
 }
 
+#usernameWrap {
+	position: relative;
+	bottom: 0%;
+
+}
+
+#passwordWrap {
+	bottom: 60%;
+	position: relative;
+}
+
+#channelWrap {
+	bottom: 40%;
+}
+
 #msg {
 	background-color: transparent;
 	height: 48px !important;
@@ -117,15 +135,16 @@ body *, * {
 	right: auto !important;
 	bottom: 0%;
 	left: 80%;
-	//bottom: 88%;
-	//left: 68%;
 	//background-image: url("./static/images/slot.png") !important;
-	//background-color: transparent !important;
 }
 
 #toast-container .toast {
-	//background-color: transparent !important;
-	background-color: dimgray;
+	background-color: rgba(0, 0, 0, 1) !important;
+	border-image-slice: 15 15 15 15 fill;
+	border-image-width: 12px 12px 12px 12px;
+	border-image-outset: 5px 5px 5px 5px;
+	border-image-repeat: round round;
+	border-image-source: url("./static/images/chat_input_border.png");
 }
 
 .button-login {
@@ -143,28 +162,30 @@ body *, * {
 }
 
 .navbar-fixed nav {
-    background-image: url("./static/images/menu_empty.png") !important;
-    background-repeat: no-repeat !important;
-    background-size: 100% 100% !important; 
-    background-position: 50% 50% !important;
+	background-image: url("./static/images/menu_empty.png") !important;
+	background-repeat: no-repeat !important;
+	background-size: 100% 100% !important;
+	background-position: 50% 50% !important;
 }
 
 input[type="text"], input[type="password"] {
-  border-bottom: none !important;
-  outline: none !important;
-  margin: 0px !important;
-  padding-right: 20px !important;
-  padding-left: 20px !important;
-  width: 100% !important;
-  height: 80px !important;
-  font-weight: bold !important;
-  font-size: 20px !important;
-  color: white !important;
-  border-image-slice: 15 15 15 15 fill !important; 
-  border-image-width: 12px 12px 12px 12px !important; 
-  border-image-outset: 0px 0px 0px 0px !important; 
-  border-image-repeat: round round !important; 
-  border-image-source: url("./static/images/chat_input_border.png") !important;
+	border-bottom: none !important;
+	outline: none !important;
+	margin: 0px !important;
+	padding-right: 20px !important;
+	padding-left: 20px !important;
+	width: 100% !important;
+	height: 80px !important;
+	font-weight: bold !important;
+	font-size: 20px !important;
+	color: white !important;
+	background-color: transparent !important;
+	border-image-slice: 15 15 15 15 fill !important;
+	border-image-width: 12px 12px 12px 12px !important;
+	border-image-outset: 0px 0px 0px 0px !important;
+	border-image-repeat: round round !important;
+	border-image-source: url("./static/images/chat_input_border.png")
+		!important;
 }
 
 .input-container-basic {
@@ -174,8 +195,8 @@ input[type="text"], input[type="password"] {
 .input-container-chat {
 	position: absolute;
 	background-color: rgba(0, 0, 0, 0.6);
-	width: 80%;
-	//height: 10%;
+	width: 80%; //
+	height: 10%;
 	bottom: 4%;
 }
 
@@ -191,10 +212,10 @@ input[type="text"], input[type="password"] {
 	height: 100%;
 	white-space: nowrap;
 	background-color: rgba(0, 0, 0, 1);
-	border-image-slice: 15 15 15 15 fill; 
-	border-image-width: 12px 12px 12px 12px; 
-	border-image-outset: 0px 0px 0px 0px; 
-	border-image-repeat: round round; 
+	border-image-slice: 15 15 15 15 fill;
+	border-image-width: 12px 12px 12px 12px;
+	border-image-outset: 0px 0px 0px 0px;
+	border-image-repeat: round round;
 }
 
 .user-wrap-general {
@@ -202,8 +223,8 @@ input[type="text"], input[type="password"] {
 }
 
 .user-wrap-admin {
-	border-image-source: url("./static/images/userlist_border.png");
-	//border-image-source: url("./static/images/userlist_border_admin.png");
+	border-image-source: url("./static/images/userlist_border.png"); //
+	border-image-source: url("./static/images/userlist_border_admin.png");
 }
 
 .user-icon-container {
@@ -211,16 +232,16 @@ input[type="text"], input[type="password"] {
 	height: 20px;
 	overflow: hidden;
 	vertical-align: middle;
-    display: inline-block;
-    white-space: normal;
+	display: inline-block;
+	white-space: normal;
 }
 
 .user-icon-image {
 	position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 42px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 42px;
 }
 
 .user-icon-helper {
@@ -249,32 +270,37 @@ li {
 	font-family: inherit;
 }
 
-.chat-box {
-	//background-color: rgba(0, 255, 0, 0.5);
-	background-color: rgba(0, 0, 0, 0.4);
-	width:68%;
+.chat-box-wrapper {
+	padding: 20px;
+	width: 68%;
 	height: 85%;
 	display: inline-block;
 	float: left;
+	background-color: rgba(0, 0, 0, 0.4);
+	border-image-slice: 31 31 25 31;
+	border-image-width: 20px 20px 20px 20px;
+	border-image-outset: 5px 5px 5px 5px;
+	border-image-repeat: round round;
+	border-image-source: url("./static/images/border_elves.png");
+}
+
+.chat-box { //
+	background-color: rgba(0, 0, 0, 0.4); //
+	width: 90%; //
+	height: 90%;
 	max-height: 100%;
 	overflow-x: hidden;
 	overflow-y: auto;
 	color: white;
 	padding: 0px 10px 100px 10px;
 	scrollbar-color: dark;
-	
-	border-image-slice: 15 15 15 15 fill; 
-	border-image-width: 12px 12px 12px 12px; 
-	border-image-outset: 0px 0px 0px 0px; 
-	border-image-repeat: round round; 
-	border-image-source: url("./static/images/chat_input_border.png");
 }
 
 .userlist-box {
 	padding-left: 10px;
 	padding-right: 10px;
-	display: inline-block;
-	//background-color: rgba(0, 0, 255, 0.5);
+	display: inline-block; //
+	background-color: rgba(0, 0, 255, 0.5);
 	background-color: rgba(0, 0, 0, 1);
 	float: left;
 	width: 30%;
@@ -283,12 +309,11 @@ li {
 	position: relative;
 	left: 2%;
 	scrollbar-color: dark;
-	
-	border-image-slice: 15 15 15 15 fill; 
-	border-image-width: 12px 12px 12px 12px; 
-	border-image-outset: 0px 0px 0px 0px; 
-	border-image-repeat: round round; 
-	border-image-source: url("./static/images/chat_input_border.png");
+	border-image-slice: 31 31 25 31;
+	border-image-width: 20px 20px 20px 20px;
+	border-image-outset: 5px 5px 5px 5px;
+	border-image-repeat: round round;
+	border-image-source: url("./static/images/border_elves.png");
 }
 
 .chat-window {
@@ -298,20 +323,21 @@ li {
 	width: 95%;
 	height: 90%;
 	background-color: rgba(0, 0, 0, 0.4);
-	border-image-slice: 15 15 15 15 fill; 
-	border-image-width: 12px 12px 12px 12px; 
-	border-image-outset: 0px 0px 0px 0px; 
-	border-image-repeat: round round; 
+	border-image-slice: 15 15 15 15 fill;
+	border-image-width: 12px 12px 12px 12px;
+	border-image-outset: 0px 0px 0px 0px;
+	border-image-repeat: round round;
 	border-image-source: url("./static/images/chat_input_border.png");
 }
 
-.ui-container {
+.ui-container { //
 	position: absolute;
 	width: 100%;
-	height: 90%;
+	height: 100%;
 	background-image: url("./static/images/background.png");
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+	position: fixed;
 }
 
 .input-field input[type=password]:focus+label {
@@ -322,7 +348,6 @@ li {
 	border-bottom: 1px solid #2196f3 !important;
 	box-shadow: 0 1px 0 0 #2196f3 !important;
 }
-
 </style>
     <!-- built files will be auto injected -->
     <!--  Scripts-->

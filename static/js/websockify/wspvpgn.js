@@ -3,13 +3,6 @@
  * by rchase
  * https://github.com/reillychase/pvpgn_html5_chat_client
  */
- 
- var chat_style_whisper = '"color: #00eb00"';
- var chat_style_server = '"color: #84dbff"';
- var chat_style_gold = '"color: #efc710"';
- var chat_style_basic = '"color: #ffffff"';
- var chat_style_error = '"color: #ff0000"';
- var chat_style_admin = '"color: #42aaf7"';
 
 function PVPGN(target, connect_callback, disconnect_callback, username) {
 
@@ -64,6 +57,7 @@ function updateUserlist(in_channel) {
 	}
 }
 
+//Placeholder
 function getUserIcon(user) {
 	if (user == 'la-dota' || user == 'lagabuse.com') {
 		return 'bnet-blizzard';
@@ -72,6 +66,7 @@ function getUserIcon(user) {
 	return 'bnet-war3x';
 }
 
+//Placeholder
 function isAdmin(user) {
 	if (user == 'la-dota' || user == 'lagabuse.com') {
 		return true;
@@ -98,8 +93,7 @@ function addToUserlist(new_user) {
 	
 	
 	//Add icon + username as list item to userlist
-	
-	chatroom = chatroom + 
+	var new_item = 
 	'<li>' +
 	'<div class="user-wrap '+borderClass+'">' +
 		'<div class="user-icon-container">' +
@@ -109,6 +103,12 @@ function addToUserlist(new_user) {
 		'<div class="user-icon-helper"></div>' +
 	'</div>' +
 	'</li>'
+	
+	if (isAdmin(new_user)) {
+		chatroom = new_item + chatroom;
+	} else {
+		chatroom = chatroom + new_item;
+	} 
 }
 
 // Handle a PVPGN message
@@ -220,7 +220,17 @@ function recvMsg(msg) {
     }
 
     if (whisper_from != null) {
-      new_msg = '<span style='+chat_style_gold+'>' + unescape(escapeHtml(whisper_from[1])) + ' whispers: </span><span style='+chat_style_whisper+'> ' + unescape(escapeHtml(whisper_from[2])) + '</span>'
+   	  if (isAdmin(whisper_from[1])) {
+   	  	new_msg = '<span style='+chat_style_gold+'>' + unescape(escapeHtml(whisper_from[1])) + 
+    	' whispers: </span><span style='+chat_style_admin+'> ' + 
+    	unescape(escapeHtml(whisper_from[2])) + 
+  	    '</span>'
+   	  } else {
+      	new_msg = '<span style='+chat_style_gold+'>' + unescape(escapeHtml(whisper_from[1])) + 
+    	  ' whispers: </span><span style='+chat_style_whisper+'> ' + 
+    	  unescape(escapeHtml(whisper_from[2])) + 
+  	    '</span>'
+  	  }
       writeToChannel(new_msg);
       whisper_from = whisper_from_regex.exec(msg);
       flag = 0;
@@ -441,8 +451,8 @@ that.sendMsg = function(msg) {
 
 
 that.connect = function(username, password, server, channel) {
-    var host = 'xpam.pl',
-        port = 33333,
+    var host = websockifyHost,
+        port = websockifyPort,
         username = username,
         password = password,
         channel = channel,
