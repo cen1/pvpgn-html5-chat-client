@@ -12,6 +12,8 @@ Uses
 ## Installation
 This particular version is intended to be used on Eurobattle.net sites but it can also be used standalone as long as the websockify server on Eurobattle.net is running.
 
+Original insstallation instructions saved in "Original_Readme"
+
 ## Where this works
 Was tested to work properly in
 - Firefox 66.0.3 (64-bit)
@@ -24,7 +26,11 @@ Doesn't work in
 - Improve borders, login button
 - Improve login layout (to always cover whole window)
 - Improve Top bar with properly scaled logo, logout icon
-- Display bmp with transparency (chat icons)
 - Detect admin/channel op
 - Detect icons
+- Display bmp with transparency (if possible)
 - Support for multiple tabs/windows
+
+## Known issues
+- Some borders not displaying in chrome
+- White background when selected previous value for text input in chrome
