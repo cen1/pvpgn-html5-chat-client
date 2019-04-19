@@ -23,54 +23,57 @@
 						<a href="http://www.eurobattle.net" id="logo-container" class="brand-logo">
 						<img src="./static/images/logo.png" class="logo-img">
 						</a>
-						<a id="logout"onclick="disconnect()" href="#" class="hide" style="float: right"><i class="material-icons">exit_to_app</i></a>
 					</div>
 				</nav>
 			</div>
 			<div class="row" id='top'>
-				<div class="container">
-					<div id="login" class="col s12 m8 offset-m2 l6 offset-l3">
-						<br>
-						<label class="label-basic">Username</label> 
+				<div>
+					<div id="login">
 						<br>
 						<div id="usernameWrap" class="input-container-basic">
+							<label class="label-basic">Username</label> 
+							<br>
 							<input id="username"
 								type="text" value=''>
 						</div>
 						<br>
-						<label class="label-basic">Password</label> 
-						<br>
 						<div id="passwordWrap" class="input-container-basic">
+							<label class="label-basic">Password</label> 
+							<br>
 							<input id="password"
 								type="password" value=''>
 						</div>
 						<br>
-						<label class="label-basic">Channel</label> 
-						<br>
 						<div id="channelWrap" class="input-container-basic">
+							<label class="label-basic">Channel</label> 
+							<br>
 							<input id="channel"
 								type="text" value='w3'>
 						</div>
 						<br>
 						<br>
 						<div id="connectButtonWrap">
-							<input id='connectButton' class="button-login" type='button'
+							<input id='connectButton' class="button-basic" type='button'
 								value=''>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div id="ui" class="ui-container">
-				<div id="chatWindow" class="chat-window">
-					<div class="chat-box-wrapper">
-						<div id="pvpgn" class="chat-box"></div>
+			<div id="uiContainer">
+				<div id="chatWindow">
+					<div id="chatBoxWrapper">
+						<div id="chatBox"></div>
 					</div>
-					<div id="userlist" class="userlist-box">
+					<div id="userlistBox">
 						<ul id="chatroom-ul">
 						</ul>
 					</div>
-					<div class="input-container-chat">
-						<input style="display: inline-block" id="msg" type="text" size=80 onkeypress="sendMsg();">
+					<div id="input-container-chat">
+						<input id="msg" type="text" size=80 onkeypress="sendMsg();">
+					</div>
+					<div id="exitButtonWrap">
+							<input id='exitButton' class="button-basic" type='button'
+								value=''>
 					</div>
 				</div>
 			</div>
@@ -95,24 +98,27 @@ body *, * {
 
 #login {
 	margin-top: 0px;
-	transform: scale(0.7);
+	position: absolute;
+	top: 15%;
+	left: 35%;
+	height 80%;
+	width: 30%;
 }
 
 #usernameWrap {
-	position: relative;
-	bottom: -100%;
+
 }
 
 #passwordWrap {
-	bottom: 60%;
-	position: relative;
+
 }
 
 #channelWrap {
-	bottom: 40%;
+
 }
 
 #msg {
+	display: inline-block; 
 	background-color: transparent;
 	height: 48px !important;
 	width: 100%;
@@ -130,15 +136,15 @@ body *, * {
 }
 
 #toast-container {
-	top: auto !important;
-	right: auto !important;
+	top: auto;
+	right: auto;
 	bottom: 0%;
 	left: 80%;
-	//background-image: url("./static/images/slot.png") !important;
+	width: 15%;
 }
 
 #toast-container .toast {
-	background-color: rgba(0, 0, 0, 1) !important;
+	background-color: rgba(0, 0, 0, 0.7);
 	border-image-slice: 15 15 15 15 fill;
 	border-image-width: 12px 12px 12px 12px;
 	border-image-outset: 5px 5px 5px 5px;
@@ -146,16 +152,28 @@ body *, * {
 	border-image-source: url("./static/images/chat_input_border.png");
 }
 
-.button-login {
+#connectButton {
+	width: 184px;
+	height: 55px;
+	background-image: url("./static/images/button_login.png");
+}
+
+#exitButton {
+	position: absolute;
+	bottom: 4%;
+	left: 85%;
+	width: 10%;
+	height: 6%;
+	background-image: url("./static/images/button_exit.png");
+}
+
+.button-basic {
 	border: 0;
 	font-style: normal;
 	font-size: 0;
 	text-transform: inherit;
 	padding: 18px 56px;
-	width: 184px;
-	height: 55px;
 	background: transparent;
-	background-image: url("./static/images/login.png");
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -178,42 +196,33 @@ input[type="text"], input[type="password"] {
 	font-weight: bold !important;
 	font-size: 20px !important;
 	color: white !important;
-	background-color: transparent !important;
 	border-image-slice: 15 15 15 15 fill !important;
 	border-image-width: 12px 12px 12px 12px !important;
 	border-image-outset: 0px 0px 0px 0px !important;
 	border-image-repeat: round round !important;
 	border-image-source: url("./static/images/chat_input_border.png")
 		!important;
+	background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
-.input-container-basic {
-	background-color: rgba(0, 0, 0, 0.5);
-}
-
-.input-container-chat {
+#input-container-chat {
 	position: absolute;
 	background-color: rgba(0, 0, 0, 0.6);
-	width: 80%; //
-	height: 10%;
+	width: 80%;
 	bottom: 4%;
 }
 
-.input-w3 {
-	border-width: 0;
-	display: block;
-	margin: 10px;
-	background-color: blue;
-}
-
 .user-wrap {
-	width: 100%;
-	height: 100%;
+	margin-top: 1%;
+	margin-left: 2%;
+	margin-right: 2%;
+	width: 96%;
+	height: 96%;
 	white-space: nowrap;
-	background-color: rgba(0, 0, 0, 1);
+	background-color: rgba(0, 0, 0, 0.4);
 	border-image-slice: 15 15 15 15 fill;
 	border-image-width: 12px 12px 12px 12px;
-	border-image-outset: 0px 0px 0px 0px;
+	border-image-outset: 5px 5px 5px 5px;
 	border-image-repeat: round round;
 }
 
@@ -222,8 +231,7 @@ input[type="text"], input[type="password"] {
 }
 
 .user-wrap-admin {
-	border-image-source: url("./static/images/userlist_border.png"); //
-	border-image-source: url("./static/images/userlist_border_admin.png");
+	border-image-source: url("./static/images/userlist_border.png");
 }
 
 .user-icon-container {
@@ -249,7 +257,7 @@ input[type="text"], input[type="password"] {
 	height: 100%;
 }
 
-li {
+ul li {
 	list-style-type: none;
 	width: 100%;
 	height: 42px;
@@ -269,7 +277,7 @@ li {
 	font-family: inherit;
 }
 
-.chat-box-wrapper {
+#chatBoxWrapper {
 	padding: 20px;
 	width: 68%;
 	height: 85%;
@@ -283,10 +291,7 @@ li {
 	border-image-source: url("./static/images/border_elves.png");
 }
 
-.chat-box { //
-	background-color: rgba(0, 0, 0, 0.4); //
-	width: 90%; //
-	height: 90%;
+#chatBox {
 	max-height: 100%;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -295,12 +300,12 @@ li {
 	scrollbar-color: dark;
 }
 
-.userlist-box {
+#userlistBox {
 	padding-left: 10px;
 	padding-right: 10px;
 	display: inline-block; //
 	background-color: rgba(0, 0, 255, 0.5);
-	background-color: rgba(0, 0, 0, 1);
+	background-color: rgba(0, 0, 0, 0.5);
 	float: left;
 	width: 30%;
 	height: 85%;
@@ -315,22 +320,31 @@ li {
 	border-image-source: url("./static/images/border_elves.png");
 }
 
-.chat-window {
+#chatWindow {
 	position: relative;
 	margin: 1%;
 	padding: 20px;
 	width: 98%;
-	height: 90%;
+	height: 86%;
 	background-color: rgba(0, 0, 0, 0.4);
 	border-image-slice: 15 15 15 15 fill;
 	border-image-width: 12px 12px 12px 12px;
 	border-image-outset: 0px 0px 0px 0px;
 	border-image-repeat: round round;
 	border-image-source: url("./static/images/chat_input_border.png");
+	
+	border-image-source: url("./static/images/border_metal.png");
+	border-image-slice: 31 31 25 31;
+	border-image-width: 30px 30px 30px 30px;
+	border-image-outset: 5px 5px 5px 5px;
+	border-image-repeat: round round;
+	border-image-slice: 15 15 15 15 fill;
+	border-image-width: 12px 12px 12px 12px;
+	border-image-outset: 5px 5px 5px 5px;
+	border-image-repeat: round round;
 }
 
-.ui-container { //
-	position: absolute;
+#uiContainer {
 	width: 100%;
 	height: 100%;
 	background-image: url("./static/images/background.png");
@@ -396,7 +410,7 @@ li {
         function disconnect() {
             $D('connectButton').disabled = true;
             $D('login').style.display = 'block';
-            $D('pvpgn').style.display = 'none';
+            $D('chatBox').style.display = 'none';
             $D('msg').style.display = 'none';
             $D('html').classList.remove("black");
             toast('Logged out', 1, 1000);
@@ -407,10 +421,9 @@ li {
             $D('msg').disabled = false;
             $D('connectButton').disabled = false;
             $D('connectButtonWrap').style.display = 'none';
-            $D('logout').classList.remove("hide");
-            $D('userlist').classList.remove("hide");
+            $D('userlistBox').classList.remove("hide");
             $D('chatWindow').classList.remove("hide");
-            $D('ui').classList.remove("hide");
+            $D('uiContainer').classList.remove("hide");
 
         }
         function disconnected() {
@@ -426,12 +439,12 @@ li {
             });
 
             $D('connectButton').onclick = connect;
+            $D('exitButton').onclick = disconnect;
             $D('msg').style.display = 'none';
-            $D('logout').classList.add("hide");
-            $D('pvpgn').style.display = 'none';
-            $D('userlist').classList.add("hide");
+            $D('chatBox').style.display = 'none';
+            $D('userlistBox').classList.add("hide");
             $D('chatWindow').classList.add("hide");
-            $D('ui').classList.add("hide");
+            $D('uiContainer').classList.add("hide");
         }
         window.onload = function() {
             console.log("onload");

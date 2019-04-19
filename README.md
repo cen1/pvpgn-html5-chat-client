@@ -23,12 +23,13 @@ Doesn't work in
 - Internet Explorer
 
 ## TODO List
-- Improve borders, login button
-- Improve login layout (to always cover whole window)
-- Improve Top bar with properly scaled logo, logout icon
+- Find border for channel OP
+- Improve chat borders
+- Improve login button
+- Improve toast
+- Improve Top bar with properly scaled logo
 - Detect admin/channel op
 - Detect icons
-- Display bmp with transparency (if possible)
 - Support for multiple tabs/windows
 
 ## Known issues

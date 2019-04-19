@@ -45,6 +45,7 @@ function do_recv() {
             // No line break found
             break;
         }
+        
         recvMsg(ws.rQshiftStr((i-rQi) + 1));
     }
 
@@ -59,8 +60,10 @@ function updateUserlist(in_channel) {
 
 //Placeholder
 function getUserIcon(user) {
-	if (user == 'la-dota' || user == 'lagabuse.com') {
-		return 'bnet-blizzard';
+	for (var i in bots) {
+		if (user == bots[i]) {
+			return 'bnet-blizzard';
+		}
 	}
 	
 	return 'bnet-war3x';
@@ -68,8 +71,10 @@ function getUserIcon(user) {
 
 //Placeholder
 function isAdmin(user) {
-	if (user == 'la-dota' || user == 'lagabuse.com') {
-		return true;
+	for (var i in bots) {
+		if (user == bots[i]) {
+			return true;
+		}
 	}
 	
 	return false;
@@ -81,7 +86,7 @@ function addToUserlist(new_user) {
 	
 	var icon = getUserIcon(new_user);
 	
-	var iconPath = '"static/icons/'+icon+'.bmp"';
+	var iconPath = '"static/icons/'+icon+'.png"';
 	
 	//Border
 	
@@ -117,6 +122,7 @@ function recvMsg(msg) {
     var flag = 1;
     var not_whisper = 1;
     Util.Debug(">> recvMsg");
+    console.log("PvPGN >> "+msg);
 
     // All the regex we want to catch coming from the server to the client
 
@@ -135,6 +141,10 @@ function recvMsg(msg) {
       }
 
     }
+    
+    test = /FLAGS/g;
+    str = test.exec(msg);
+    //console.log(">> "+str);
 
     whisper_to_regex = /^\<to (.*)\> (.*)/g;
     whisper_to = whisper_to_regex.exec(msg)
@@ -240,11 +250,11 @@ function recvMsg(msg) {
     // What to do when all other regexes are seen
     while (success != null) {
       $D('login').style.display = 'none';
-      $D('pvpgn').style.display = 'block';
+      $D('chatBox').style.display = 'block';
       $D('msg').style.display = 'block';
       $D('connectButtonWrap').style.display = 'none';
       $D('html').classList.add("black");
-      toast('Connected!', 1, 1000);
+      toast('Connected!', 1, 3000);
       success = success_regex.exec(msg);
       flag = 0;
     };
@@ -252,7 +262,7 @@ function recvMsg(msg) {
     while (failed != null) {
       $D('login').style.display = 'block';
       $D('connectButton').disabled = false;
-      $D('pvpgn').style.display = 'none';
+      $D('chatBox').style.display = 'none';
       $D('msg').style.display = 'none';
       $D('html').classList.remove("black");
       toast('Login failed!', 0, 4000);
@@ -265,7 +275,7 @@ function recvMsg(msg) {
 
       $D('login').style.display = 'block';
       $D('connectButton').disabled = false;
-      $D('pvpgn').style.display = 'none';
+      $D('chatBox').style.display = 'none';
       $D('msg').style.display = 'none';
       $D('html').classList.remove("black");
       toast("PvPGN server blocked telnet", 0, 4000);
@@ -408,7 +418,7 @@ function writeToChannel(msg) {
           full_list = full_list + msgLog[i] + "<br>"
     }
     
-    var chatbox = $D("pvpgn");
+    var chatbox = $D("chatBox");
 
     chatbox.innerHTML = full_list;
    	chatbox.scrollTop = chatbox.scrollHeight;
@@ -494,10 +504,10 @@ that.disconnect = function() {
     }
     $D('login').style.display = 'block';
     $D('connectButton').disabled = false;
-    $D('pvpgn').style.display = 'none';
+    $D('chatBox').style.display = 'none';
     $D('msg').style.display = 'none';
     $D('html').classList.remove("black");
-    $D("pvpgn").innerHTML = '';
+    $D("chatBox").innerHTML = '';
     disconnect_callback();
     Util.Debug("<< disconnect");
 }
