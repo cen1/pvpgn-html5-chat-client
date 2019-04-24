@@ -51,13 +51,6 @@ function do_recv() {
 
 }
 
-function updateUserlist(in_channel) {
-	chatroom = '';
-	for (var i = 0; i < in_channel.length; i++) {
- 		addToUserlist(in_channel[i]);
-	}
-}
-
 //Placeholder
 function getUserIcon(user) {
 	for (var i in bots) {
@@ -80,22 +73,24 @@ function isAdmin(user) {
 	return false;
 }
 
-function addToUserlist(new_user) {
+function updateUserlist(in_channel) {
+	chatroom = '';
+	for (var i = 0; i < in_channel.length; i++) {
+ 		addToUserlist(in_channel[i]);
+	}
+}
 
-	//Icon to be displayed next to username
-	
-	var icon = getUserIcon(new_user);
-	
+function addToUserlist(new_user) {
+	//Icon to be displayed next to username	
+	var icon = getUserIcon(new_user);	
 	var iconPath = '"static/icons/'+icon+'.png"';
 	
-	//Border
-	
+	//Border	
 	var borderClass = 'user-wrap-general';
 	
 	if (isAdmin(new_user)) {
 		borderClass = 'user-wrap-admin';
 	}
-	
 	
 	//Add icon + username as list item to userlist
 	var new_item = 
@@ -104,10 +99,10 @@ function addToUserlist(new_user) {
 		'<div class="user-icon-container">' +
 			'<img class="user-icon-image" src='+iconPath+'>' +
 		'</div>' +
-		'<a href="#">' + escapeHtml(new_user) + '</a>' +
+		'<a href="#" class="user-link">' + escapeHtml(new_user) + '</a>' +
 		'<div class="user-icon-helper"></div>' +
 	'</div>' +
-	'</li>'
+	'</li>';
 	
 	if (isAdmin(new_user)) {
 		chatroom = new_item + chatroom;
@@ -141,10 +136,6 @@ function recvMsg(msg) {
       }
 
     }
-    
-    test = /FLAGS/g;
-    str = test.exec(msg);
-    //console.log(">> "+str);
 
     whisper_to_regex = /^\<to (.*)\> (.*)/g;
     whisper_to = whisper_to_regex.exec(msg)

@@ -24,14 +24,11 @@ Doesn't work in
 
 ## TODO List
 - Find border for channel OP
-- Improve chat borders
-- Improve login button
-- Improve toast
-- Improve Top bar with properly scaled logo
+- Add list of channels for quick switch
+- Add various elements to top bar
 - Detect admin/channel op
 - Detect icons
 - Support for multiple tabs/windows
 
 ## Known issues
-- Some borders not displaying in chrome
 - White background when selected previous value for text input in chrome
