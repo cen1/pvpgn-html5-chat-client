@@ -23,7 +23,6 @@ Doesn't work in
 - Internet Explorer
 
 ## TODO List
-- Find border for channel OP
 - Add list of channels for quick switch
 - Add various elements to top bar
 - Detect admin/channel op
