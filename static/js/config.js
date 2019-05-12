@@ -2,17 +2,28 @@
  * Config file
  */
 
-//Websockify
-const websockifyHost = "xpam.pl";
-const websockifyPort = 33333;
+ const Config = {
+    //Websockify
+    websockifyHost: "xpam.pl",
+    websockifyPort: 33333,
+    
+    //Servers dropdown
+    servers: {
+        "server.eurobattle.net": "Eurobattle.net"
+    },
 
-//Chat colors
-const chat_style_whisper = '"color: #00eb00"';
-const chat_style_server = '"color: #84dbff"';
-const chat_style_gold = '"color: #efc710"';
-const chat_style_basic = '"color: #ffffff"';
-const chat_style_error = '"color: #ff0000"';
-const chat_style_admin = '"color: #42aaf7"';
+    //Chat colors
+    chat_style_whisper: '"color: #00eb00"',
+    chat_style_server: '"color: #84dbff"',
+    chat_style_gold: '"color: #efc710"',
+    chat_style_basic: '"color: #ffffff"',
+    chat_style_error: '"color: #ff0000"',
+    chat_style_admin: '"color: #42aaf7"',
 
-//Bot list
-const bots = ["la-dota", "lagabuse.com"];
+    //AOP list (until proper telnet chat proto support)
+    bots: ["la-dota", "lagabuse.com"],
+
+    //Other
+    logoUrl: "./static/images/logo.png",
+    copyrightFooter: "Eurobattle.net"
+ }

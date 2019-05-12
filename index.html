@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html id="html">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+		<title>PvPGN Chat</title>
+
+		<!-- CSS  -->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="./static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		<link href="./static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+		<!-- JS -->
+		<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+		<script src="./static/js/config.js"></script>
+		<script src="./static/js/websockify/util.js"></script> 
+		<script src="./static/js/websockify/webutil.js"></script> 
+		<script src="./static/js/websockify/websock.js"></script>
+		<script src="./static/js/websockify/wspvpgn.js"></script>
+		
+		<script src="./static/js/page.js"></script>
+		<script src="./static/js/materialize.min.js"></script>
+		<script src="./static/js/init.js"></script>
+		
+		<link rel="Shortcut Icon" href="./static/images/favicon.ico" type="image/x-icon">
+	</head>
+	<body>
+		<head>
+			<div class="row">
+				<div id="navBar" class="col s12">
+					<div id="logo-container">
+						<a href=".">
+							<!-- dynamically filled from config -->
+							<img id="logo-image" src="">
+						</a>
+					</div>
+				</div>
+			</div>
+		</head>
+		<main>
+			<div id="app">
+				<div id="loginUIContainer" class="row">
+					<div id="login" class="col s12 m4 offset-m4">
+						<div>
+							<label class="label-basic">Server</label> 
+							<select id="select-server">
+							</select>
+						</div>
+						<div>
+							<label class="label-basic">Username</label> 
+							<input id="username" type="text" value=''>
+						</div>
+						<div>
+							<label class="label-basic">Password</label> 
+							<input id="password" type="password" value=''>
+						</div>
+						<div>
+							<label class="label-basic">Channel</label> 
+							<input id="channel" type="text" value='w3'>
+						</div>
+						<div id="connectButtonWrap">
+							<input id='connectButton' class="button-basic" type='button'>
+						</div>
+					</div>
+				</div>
+				<div id="uiContainer" class="row hide">
+					<div id="chatWindow">
+						<div id="chatBoxWrapper" class="div-border-leaves">
+							<div id="chatBox">
+							</div>
+						</div>
+						<div id="userlistBox" class="div-border-leaves">
+							<ul id="chatroom-ul">
+							</ul>
+						</div>
+						<div id="input-container-chat">
+							<input id="msg" type="text" size=80 onkeypress="sendMsg();">
+						</div>
+						<div id="exitButtonWrap">
+								<input id='exitButton' class="button-basic" type='button'
+									value=''>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer>
+			<p id="copyright"></p>
+		</footer>
+	</body>
+</html>
+
+
+

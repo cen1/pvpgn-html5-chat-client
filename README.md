@@ -1,33 +1,27 @@
-# PvPGN HTML5 Chat Client, Wacraft III styled for Eurobattle.net
+# PvPGN HTML5 Chat Client
+An HTML5 chat client for PvPGN servers. Uses Materialize CSS and Websockify.
 
-## Origin
-Original version by reillychase
+## How it works
+Websockify can act as a bridge from a websocket to a network socket.
 
-https://github.com/reillychase/pvpgn-html5-chat-client
+This means the web client opens a websocket to your webserver, then websockify proxies that connection to the PvPGN server's telnet port.
 
-Uses
-- Websockify: https://github.com/novnc/websockify
-- Materialize
+PvPGN sees all the connections as coming from the webserver, not the actual end-user, which is important to keep in mind. If your PvPGN server limits the number of connections from a single IP, the HTML5 chat client may only be able to serve a few clients at a time unless you change PvPGN configuration.
 
-## Installation
-This particular version is intended to be used on Eurobattle.net sites but it can also be used standalone as long as the websockify server on Eurobattle.net is running.
+## Installation Insructions
+### Install Websockify
+```
+apt-get install websockify
+```
 
-Original insstallation instructions saved in "Original_Readme"
+### Run Websockify
+```
+websockify -v 33333 some.pvpgn.server.net:6112
+```
 
-## Where this works
-Was tested to work properly in
-- Firefox 66.0.3 (64-bit)
-- Chrome 73.0.3683.103 (64-Bit)
+### Run pvpgn-html5-chat-client
+This project is a static HTML/JavaScript web page so just put the whole folder on some HTTP server.
+All settings can be changed in `js/config.js`.
 
-Doesn't work in
-- Internet Explorer
-
-## TODO List
-- Add list of channels for quick switch
-- Add various elements to top bar
-- Detect admin/channel op
-- Detect icons
-- Support for multiple tabs/windows
-
-## Known issues
-- White background when selected previous value for text input in chrome
+## TODO
+Client currently does not initiate a real telnet chat protocol but some weird text chat protocol. 0x03 payload is missing from initial connection and a proper telnet chat protocol parser is missing. With a rewrite it will be possible to show proper server icons in channel.

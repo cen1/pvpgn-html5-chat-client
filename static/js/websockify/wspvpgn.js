@@ -53,8 +53,8 @@ function do_recv() {
 
 //Placeholder
 function getUserIcon(user) {
-	for (var i in bots) {
-		if (user == bots[i]) {
+	for (var i in Config.bots) {
+		if (user == Config.bots[i]) {
 			return 'bnet-blizzard';
 		}
 	}
@@ -64,8 +64,8 @@ function getUserIcon(user) {
 
 //Placeholder
 function isAdmin(user) {
-	for (var i in bots) {
-		if (user == bots[i]) {
+	for (var i in Config.bots) {
+		if (user == Config.bots[i]) {
 			return true;
 		}
 	}
@@ -202,7 +202,7 @@ function recvMsg(msg) {
 
     // Catch all to turn anything that didn't match a regex into a yellow msg from server
     if (whisper_to == null && whisper_from == null && success == null && failed == null && joining_channel == null && empty2 == null && username2 == null && password2 == null && bot == null && sorry == null && enter == null && chat == null && is_here == null && banned == null && enters == null && error == null && leaves == null && quit == null && kicked == null) {
-      new_msg = '<span style='+chat_style_server+'>' + escapeHtml(msg) + '</span>'
+      new_msg = '<span style='+Config.chat_style_server+'>' + escapeHtml(msg) + '</span>'
       writeToChannel(new_msg);
       flag = 0;
     }
@@ -213,7 +213,7 @@ function recvMsg(msg) {
     }
 
     if (whisper_to != null) {
-      new_msg = '<span style='+chat_style_gold+'>You whisper to ' + unescape(escapeHtml(whisper_to[1])) + ': </span><span style='+chat_style_whisper+'> ' + unescape(escapeHtml(whisper_to[2])) + '</span>'
+      new_msg = '<span style='+Config.chat_style_gold+'>You whisper to ' + unescape(escapeHtml(whisper_to[1])) + ': </span><span style='+Config.chat_style_whisper+'> ' + unescape(escapeHtml(whisper_to[2])) + '</span>'
       writeToChannel(new_msg);
       whisper_to = whisper_to_regex.exec(msg);
       flag = 0;
@@ -222,13 +222,13 @@ function recvMsg(msg) {
 
     if (whisper_from != null) {
    	  if (isAdmin(whisper_from[1])) {
-   	  	new_msg = '<span style='+chat_style_gold+'>' + unescape(escapeHtml(whisper_from[1])) + 
-    	' whispers: </span><span style='+chat_style_admin+'> ' + 
+   	  	new_msg = '<span style='+Config.chat_style_gold+'>' + unescape(escapeHtml(whisper_from[1])) + 
+    	' whispers: </span><span style='+Config.chat_style_admin+'> ' + 
     	unescape(escapeHtml(whisper_from[2])) + 
   	    '</span>'
    	  } else {
-      	new_msg = '<span style='+chat_style_gold+'>' + unescape(escapeHtml(whisper_from[1])) + 
-    	  ' whispers: </span><span style='+chat_style_whisper+'> ' + 
+      	new_msg = '<span style='+Config.chat_style_gold+'>' + unescape(escapeHtml(whisper_from[1])) + 
+    	  ' whispers: </span><span style='+Config.chat_style_whisper+'> ' + 
     	  unescape(escapeHtml(whisper_from[2])) + 
   	    '</span>'
   	  }
@@ -277,7 +277,7 @@ function recvMsg(msg) {
 
     while (chat != null) {
       if (not_whisper == 1) {
-      new_msg = '<span style='+chat_style_gold+'>' + escapeHtml(chat[1]) + ': </span><span style='+chat_style_basic+'> ' + unescape(escapeHtml(chat[2])) + '</span>'
+      new_msg = '<span style='+Config.chat_style_gold+'>' + escapeHtml(chat[1]) + ': </span><span style='+Config.chat_style_basic+'> ' + unescape(escapeHtml(chat[2])) + '</span>'
       writeToChannel(new_msg);
       }
       chat = chat_regex.exec(msg);
@@ -368,7 +368,7 @@ function recvMsg(msg) {
 
       in_channel = [];
 
-      new_msg = '<span style='+chat_style_basic+'>Joining channel: </span><span style='+chat_style_gold+'>' + escapeHtml(joining_channel[1]) + '</span>'
+      new_msg = '<span style='+Config.chat_style_basic+'>Joining channel: </span><span style='+Config.chat_style_gold+'>' + escapeHtml(joining_channel[1]) + '</span>'
       writeToChannel(new_msg);
       joining_channel = joining_channel_regex.exec(msg);
 
@@ -377,7 +377,7 @@ function recvMsg(msg) {
 
     while (error != null) {
 
-      new_msg = '<span style='+chat_style_error+'>' + escapeHtml(error[1]) + '</span>'
+      new_msg = '<span style='+Config.chat_style_error+'>' + escapeHtml(error[1]) + '</span>'
       writeToChannel(new_msg);
       error = error_regex.exec(msg);
 
@@ -386,7 +386,7 @@ function recvMsg(msg) {
 
     while (broadcast != null) {
 
-      new_msg = '<span style='+chat_style_admin+'>' + escapeHtml(broadcast[1]) + '</span>'
+      new_msg = '<span style='+Config.chat_style_admin+'>' + escapeHtml(broadcast[1]) + '</span>'
       writeToChannel(new_msg);
       broadcast = broadcast_regex.exec(msg);
 
@@ -445,15 +445,15 @@ that.sendMsg = function(msg) {
     };
 
     if (write == 1) {
-      writeToChannel('<span style='+chat_style_gold+'>' + username + ': </span><span style='+chat_style_basic+' > ' + escapeHtml(msg) + '</span>')
+      writeToChannel('<span style='+Config.chat_style_gold+'>' + username + ': </span><span style='+Config.chat_style_basic+' > ' + escapeHtml(msg) + '</span>')
     }
     sendCmd(msg);
 }
 
 
 that.connect = function(username, password, server, channel) {
-    var host = websockifyHost,
-        port = websockifyPort,
+    var host = Config.websockifyHost,
+        port = Config.websockifyPort,
         username = username,
         password = password,
         channel = channel,
@@ -463,11 +463,9 @@ that.connect = function(username, password, server, channel) {
     if (channel == '') {
     	channel = 'w3';
     }
-    //Port is the websockify instance to connect to
-    if (server == 'server.eurobattle.net') {
-      port = '33333';
-      clientTag = 'W3XP'
-    }
+
+    clientTag = 'W3XP'
+
     Util.Debug(">> connect");
     if (ws) {
         ws.close();
@@ -485,6 +483,7 @@ that.connect = function(username, password, server, channel) {
     sendCmd("/join " + channel);
     sendCmd("\r\n");
     Util.Debug("<< connect");
+
     return true;
 }
 
@@ -523,7 +522,7 @@ function constructor() {
         msgLog = [];
         username =  $D('username').value;
         sendCmd("\r\n");
-        connect_callback();
+        connect_callback(); //TODO: too early, we are not logged in yet, bad password looks like background flash
         Util.Info("<< WebSockets.onopen");
     });
     ws.on('close', function(e) {
