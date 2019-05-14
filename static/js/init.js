@@ -18,7 +18,13 @@
 				$('<option></option>').val(val).html(text)
 		);
 	});
-	$('select').formSelect();	
+	$('select').formSelect();
+
+	//Reorder text box and user list on mobil
+	if ($("#loginUIContainer").css("z-index")==2) {
+		console.log("mobile");
+		$("#msgWrapperCol").insertBefore("#userlistBoxCol");
+	}
 });
 
 })(jQuery);

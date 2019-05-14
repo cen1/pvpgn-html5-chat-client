@@ -119,6 +119,7 @@ body *, * {
 
 @media (max-width: 400px) {
 	#loginUIContainer {
+		z-index: 2;
 		background-color: black;
 	}
 
