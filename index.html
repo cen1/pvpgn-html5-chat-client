@@ -26,14 +26,14 @@
 	</head>
 	<body>
 		<head>
-			<div class="row">
+			<div class="row hide-on-med-and-down" style="margin-bottom: 0">
 				<div id="navBar" class="col s12">
-					<div id="logo-container">
-						<a href=".">
+					<span>
+						<a id="logo-link" href=".">
 							<!-- dynamically filled from config -->
 							<img id="logo-image" src="">
 						</a>
-					</div>
+					</span>
 				</div>
 			</div>
 		</head>
@@ -63,30 +63,37 @@
 						</div>
 					</div>
 				</div>
-				<div id="uiContainer" class="row hide">
-					<div id="chatWindow">
-						<div id="chatBoxWrapper" class="div-border-leaves">
-							<div id="chatBox">
+				<div id="uiContainer" class="hide">
+					<div id="chatWindow" class="row">
+						<!-- Chatbox -->
+						<div class="col s12 m8">
+							<div id="chatBoxWrapper" class="div-border-leaves">
+								<div id="chatBox">
+								</div>
 							</div>
 						</div>
-						<div id="userlistBox" class="div-border-leaves">
-							<ul id="chatroom-ul">
-							</ul>
+						<!-- Users -->
+						<div class="col s12 m4">
+							<div id="userlistBox" class="div-border-leaves">
+								<ul id="chatroom-ul">
+								</ul>
+							</div>
 						</div>
-						<div id="input-container-chat">
-							<input id="msg" type="text" size=80 onkeypress="sendMsg();">
+						<!-- Text box -->
+						<div class="col s12 m8" style="margin-bottom: 1rem">
+							<div id="msgWrapper">
+								<input id="msg" type="text" size=80 onkeypress="sendMsg();">
+							</div>
 						</div>
-						<div id="exitButtonWrap">
-								<input id='exitButton' class="button-basic" type='button'
-									value=''>
+						<div class="col s12 m4"></div>
+							<div id="exitButtonWrap">
+								<input id='exitButton' class="button-basic" type='button' value=''>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</main>
-		<footer>
-			<p id="copyright"></p>
-		</footer>
 	</body>
 </html>
 

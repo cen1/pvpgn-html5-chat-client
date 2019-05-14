@@ -25,5 +25,4 @@
 
     //Other
     logoUrl: "./static/images/logo.png",
-    copyrightFooter: "Eurobattle.net"
  }

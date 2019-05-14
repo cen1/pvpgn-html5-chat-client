@@ -6,6 +6,10 @@
  * Made By MaterializeCSS.com
  */
 
+ span {
+	 word-break: break-all;
+ }
+
 .icon-block {
   padding: 0 15px;
 }
@@ -34,65 +38,55 @@ html {
 }
 
 body {	
-	height: 100%;
 	margin: 0;
 	padding: 0;
+	border: 0;
+	
+	position: relative;
+	height: 100%;
 
-	padding-bottom: 25px;
-	min-height:100%;
-    position:relative;
-
-	background-image: url("../images/background_login.png");
-	background-repeat: no-repeat;
-	background-size: cover;
+	background-color: #1b1b1c;
 }
 
 body *, * {
 	box-sizing: border-box !important;
 }
 
-footer {
-	position:absolute;
-	bottom: 0;
-	width: 100%;
-	height: 25px;
-	background: #181818 ;
-	/*line-height: 0px;*/
-	margin: 0;
-	padding: 0;
-	padding-top: 5px;
+@media (min-width: 400px) {
+	main {
+		height: calc(100% - 75px);
+	}
 }
 
-footer p {
-	margin: 0;
-	padding: 0;
-	color: gold;
-	text-align: center;
-	font-size: 10px;
+@media (max-width: 400px) {
+	main {
+		height: 100%;
+	}
 }
 
-#logo-container {
-	position: absolute;
-	top: 24%;
-	left: 26%;
-	width: 10%;
-	height: 50%;
+#app {
+	height: 100%;
+}
+
+#logo-link {
+	margin:0 auto;
+  	display:table;
 }
 
 #logo-image {
-	width: 100%;
- 	height: 100%;
+	margin-top: 15px;
+	height: 50px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #navBar {
-	position: fixed;
 	width: 100%;
 	height: 75px;
-	background-image: url("../images/menu.png");
+	background-image: url("../images/menu_empty2.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
-
-	z-index: 1;
 }
 
 #top {
@@ -100,33 +94,41 @@ footer p {
 }
 
 #loginUIContainer {
-	padding-top: 150px;
+	padding-top: 100px;
 	width: 100%;
-	height: calc(100%-75px);
+	min-height: 100%;
+	max-height: 100%;
+	margin-bottom: 0;
 }
 
-#msg {
-	display: inline-block; 
-	background-color: transparent;
-	font-size: 1rem;
-	padding: 0;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	-webkit-box-sizing: content-box;
-	box-sizing: content-box;
-	-webkit-transition: all 0.3s;
-	transition: all 0.3s;
-	border-width: 0;
-	display: block;
-	margin: 10px;
+@media (min-width: 400px) {
+	#loginUIContainer {
+		background-image: url("../images/background_login.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+
+	#toast-container {
+		top: auto;
+		right: auto;
+		bottom: 0%;
+		left: 80%;
+		width: 15%;
+	}
 }
 
-#toast-container {
-	top: auto;
-	right: auto;
-	bottom: 0%;
-	left: 80%;
-	width: 15%;
+@media (max-width: 400px) {
+	#loginUIContainer {
+		background-color: black;
+	}
+
+	#toast-container {
+		top: auto;
+		right: auto;
+		bottom: 0%;
+		left: 0%;
+		width: 15%;
+	}
 }
 
 #toast-container .toast {
@@ -142,15 +144,6 @@ footer p {
 	width: 120px;
 	height: 30px;
 	background-image: url("../images/button_login.png");
-}
-
-#exitButton {
-	position: absolute;
-	bottom: 6%;
-	left: 85%;
-	width: 120px;
-	height: 30px;
-	background-image: url("../images/button_exit.png");
 }
 
 .button-basic {
@@ -178,26 +171,14 @@ input[type="text"], input[type="password"] {
 	padding-right: 20px !important;
 	padding-left: 20px !important;
 	font-weight: bold !important;
-	//font-size: 20px !important;
-	font-size: 1vw !important;
 	color: white !important;
 	border-image-slice: 15 15 15 15 fill !important;
 	border-image-width: 12px 12px 12px 12px !important;
-	//border-image-width: 1rem !important;
 	border-image-outset: 0px 0px 0px 0px !important;
 	border-image-repeat: round round !important;
 	border-image-source: url("../images/chat_input_border.png")
 		!important;
 	background-color: rgba(0, 0, 0, 0.5) !important;
-	/*height: 12% !important;*/
-}
-
-#input-container-chat {
-	position: absolute;
-	background-color: rgba(0, 0, 0, 0.6);
-	width: 80%;
-	height: 6%;
-	bottom: 6%;
 }
 
 .user-wrap {
@@ -261,50 +242,22 @@ ul li {
 .label-basic {
 	color: white;
 	font-style: bold;
-	//font-size: 1.5rem;
-	font-size: 1vw;
+	font-size: 1rem;
 	font-family: inherit;
 }
 
-#chatBoxWrapper {
-	padding: 20px;
-	width: 68%;
-	height: 85%;
-	display: inline-block;
-	float: left;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-#chatBox {
-	max-height: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
-	color: white;
-	padding: 0px 10px 100px 10px;
-	scrollbar-color: dark;
-}
-
-#userlistBox {
-	padding-left: 10px;
-	padding-right: 10px;
-	display: inline-block; //
-	background-color: rgba(0, 0, 255, 0.5);
-	background-color: rgba(0, 0, 0, 0.5);
-	float: left;
-	width: 30%;
-	height: 85%;
-	overflow-y: auto;
-	position: relative;
-	left: 2%;
-	scrollbar-color: dark;
+#uiContainer {
+	min-height: 100%;
+	background-image: url("../images/background.png");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 
 #chatWindow {
 	position: relative;
-	margin: 1%;
-	padding: 20px;
-	width: 98%;
-	height: 88%;
+	margin: 0.2rem;
+	padding-top: 0.8rem;
+	padding-bottom: 0.8rem;
 	background-color: rgba(0, 0, 0, 0.4);
 	border-image-source: url("../images/border_metal.png");
 	border-image-slice: 15 15 15 15 fill;
@@ -313,15 +266,51 @@ ul li {
 	border-image-repeat: round round;
 }
 
-#uiContainer {
-	position: fixed;
-	top: 10%;
-	width: 100%;
-	height: 100%;
-	background-image: url("../images/background.png");
-	background-repeat: no-repeat;
-	background-size: 100% 100%;
-	position: fixed;
+#chatBoxWrapper {
+	height: 60vh;
+	padding: 1rem;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+#chatBox {
+	max-height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	color: white;
+	padding: 0.2rem;
+}
+
+#userlistBox {
+	height: 60vh;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	background-color: rgba(0, 0, 255, 0.5);
+	background-color: rgba(0, 0, 0, 0.5);
+	overflow-y: auto;
+	position: relative;
+	min-height: 100%;
+}
+
+#msgWrapper {
+	background-color: rgba(0, 0, 0, 0.6);
+	margin-top: 1rem;
+}
+
+#msg {
+	background-color: transparent;
+	font-size: 1rem;
+	padding: 0;
+	box-shadow: none;
+	box-sizing: content-box;
+	transition: all 0.3s;
+	border-width: 0;
+}
+
+#exitButton {
+	margin-top: 1rem;
+	margin-right: 1rem;
+	float: right;
+	background-image: url("../images/button_exit.png");
 }
 
 .div-border-leaves {

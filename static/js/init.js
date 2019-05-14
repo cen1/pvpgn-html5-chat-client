@@ -23,10 +23,6 @@
 					$('<option></option>').val(val).html(text)
 			);
 		});
-		$('select').material_select();
-
-		let year = new Date().getFullYear();
-		$("#copyright").html("Copyright © "+Config.copyrightFooter+" "+year);
-		
+		$('select').material_select();		
 	});
 })(jQuery);
