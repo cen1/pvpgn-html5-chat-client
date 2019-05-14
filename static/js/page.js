@@ -10,7 +10,7 @@ function toast(text, index, duration) {
     
     var toast_image = '<img width: 60%; max-width: 100%; height: auto; src="'+toast_image_path+'">';
     
-    Materialize.toast(text+' '+toast_image, duration);
+    M.toast({html: text+' '+toast_image, displayLength: duration});
 }
 
 var pvpgn;

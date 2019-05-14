@@ -4,25 +4,21 @@
 	console.log("jQuery init");
 
   $(function() {
-		
-		$('.dropdown-button').dropdown();
-		$("[data-activates=nav-mobile]").sideNav({
-			closeOnClick: true
-		});
-		$("[data-activates=chatroom-mobile]").sideNav({
-			closeOnClick: true,
-			edge: 'right'
-		});
 
-		$('.collapsible').collapsible();
+	M.AutoInit()
+	
+	$('.dropdown-button').dropdown();
 
-		$("#logo-image").attr("src", Config.logoUrl);
+	$('.collapsible').collapsible();
 
-		$.each(Config.servers, function(val, text) {
-			$("#select-server").append(
-					$('<option></option>').val(val).html(text)
-			);
-		});
-		$('select').material_select();		
+	$("#logo-image").attr("src", Config.logoUrl);
+
+	$.each(Config.servers, function(val, text) {
+		$("#select-server").append(
+				$('<option></option>').val(val).html(text)
+		);
 	});
+	$('select').formSelect();	
+});
+
 })(jQuery);
