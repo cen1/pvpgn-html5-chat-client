@@ -52,13 +52,13 @@ body *, * {
 	box-sizing: border-box !important;
 }
 
-@media (min-width: 400px) {
+@media (min-width: 1200px) {
 	main {
 		height: calc(100% - 75px);
 	}
 }
 
-@media (max-width: 400px) {
+@media (max-width: 1200px) {
 	main {
 		height: 100%;
 	}
@@ -101,7 +101,8 @@ body *, * {
 	margin-bottom: 0;
 }
 
-@media (min-width: 400px) {
+/* Desktop */
+@media only screen and (min-width: 1200px) {
 	#loginUIContainer {
 		background-image: url("../images/background_login.png");
 		background-repeat: no-repeat;
@@ -117,9 +118,9 @@ body *, * {
 	}
 }
 
-@media (max-width: 400px) {
+/* Mobile */
+@media only screen and (max-width: 1200px) {
 	#loginUIContainer {
-		z-index: 2;
 		background-color: black;
 	}
 
@@ -129,6 +130,14 @@ body *, * {
 		bottom: 0%;
 		left: 0%;
 		width: 15%;
+	}
+
+	#navBarWrapper {
+		display: none;
+	}
+
+	#hack {
+		visibility: hidden;
 	}
 }
 
@@ -269,7 +278,8 @@ ul li {
 }
 
 #chatBoxWrapper {
-	height: 60vh;
+	/*height: 60vh;*/
+	height: 500px;
 	padding: 1rem;
 	background-color: rgba(0, 0, 0, 0.4);
 }
@@ -283,14 +293,14 @@ ul li {
 }
 
 #userlistBox {
-	height: 60vh;
+	/*height: 60vh;*/
+	height: 500px;
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 	background-color: rgba(0, 0, 255, 0.5);
 	background-color: rgba(0, 0, 0, 0.5);
 	overflow-y: auto;
 	position: relative;
-	min-height: 100%;
 }
 
 #msgWrapper {

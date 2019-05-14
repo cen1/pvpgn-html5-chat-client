@@ -21,22 +21,24 @@
 	$('select').formSelect();
 
 	//Reorder text box and user list on mobil
-	if ($("#loginUIContainer").css("z-index")==2) {
+	let zHack = $("#hack").css("visibility");
+	console.log(zHack)
+	if (zHack=="hidden") {
 		console.log("mobile");
-		$("#msgWrapperCol").insertBefore("#userlistBoxCol");
+		$("#userlistBoxCol").insertBefore("#chatBoxCol");
 	}
 
 	var mqOrientation = window.matchMedia("(orientation: portrait)");
 
 	mqOrientation.addListener(function() {
 		console.log("orientation changed");
-		if ($("#loginUIContainer").css("z-index")==2) {
+		if ($("#hack").css("visibility")=="hidden") {
 			console.log("orientationchange 1");
-			$("#msgWrapperCol").insertBefore("#userlistBoxCol");
+			$("#userlistBoxCol").insertBefore("#chatBoxCol");
 		}
 		else {
 			console.log("orientationchange 2");
-			$("#userlistBoxCol").insertBefore("#msgWrapperCol");
+			$("#userlistBoxCol").insertAfter("#chatBoxCol");
 		}
 	});
 });

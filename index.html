@@ -27,7 +27,7 @@
 	</head>
 	<body>
 		<head>
-			<div class="row hide-on-med-and-down" style="margin-bottom: 0">
+			<div id="navBarWrapper" class="row" style="margin-bottom: 0">
 				<div id="navBar" class="col s12">
 					<span>
 						<a id="logo-link" href=".">
@@ -41,7 +41,7 @@
 		<main>
 			<div id="app">
 				<div id="loginUIContainer" class="row">
-					<div id="login" class="col s12 m4 offset-m4">
+					<div id="login" class="col s12 xl4 offset-xl4">
 						<div>
 							<label class="label-basic">Server</label> 
 							<select id="select-server">
@@ -67,21 +67,21 @@
 				<div id="uiContainer" class="hide">
 					<div id="chatWindow" class="row">
 						<!-- Chatbox -->
-						<div class="col s12 m8">
+						<div id="chatBoxCol" class="col s12 xl8">
 							<div id="chatBoxWrapper" class="div-border-leaves">
 								<div id="chatBox">
 								</div>
 							</div>
 						</div>
 						<!-- Users -->
-						<div id="userlistBoxCol" class="col s12 m4">
+						<div id="userlistBoxCol" class="col s12 xl4">
 							<div id="userlistBox" class="div-border-leaves">
 								<ul id="chatroom-ul">
 								</ul>
 							</div>
 						</div>
 						<!-- Text box -->
-						<div id="msgWrapperCol" class="col s12 m8" style="margin-bottom: 1rem">
+						<div id="msgWrapperCol" class="col s12 xl8" style="margin-bottom: 1rem">
 							<div id="msgWrapper">
 								<input id="msg" type="text" size=80 onkeypress="sendMsg();">
 							</div>
@@ -95,6 +95,7 @@
 				</div>
 			</div>
 		</main>
+		<span id="hack"></span>
 	</body>
 </html>
 
