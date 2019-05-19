@@ -115,6 +115,14 @@ body *, * {
 		border-image-repeat: round round;
 		border-image-source: url("../images/border_elves.png");
 	}
+
+	#userlistBox {
+		height: calc(100vh - 200px);
+	}
+
+	#chatBoxWrapper {
+		height: calc(100vh - 200px);
+	}
 }
 
 /* Mobile */
@@ -138,6 +146,14 @@ body *, * {
 
 	#userlistBox {
 		margin-bottom: 1rem;
+	}
+
+	#userlistBox {
+		height: 500px;
+	}
+
+	#chatBoxWrapper {
+		height: 500px;
 	}
 }
 
@@ -274,7 +290,6 @@ ul li {
 }
 
 #chatBoxWrapper {
-	height: 500px;
 	padding: 1rem;
 	background-color: rgba(0, 0, 0, 0.4);
 }
@@ -288,7 +303,6 @@ ul li {
 }
 
 #userlistBox {
-	height: 500px;
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 	background-color: rgba(0, 0, 0, 0.5);
