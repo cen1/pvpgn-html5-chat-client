@@ -302,6 +302,10 @@ ul li {
 	padding: 0.2rem;
 }
 
+#chatBox span {
+	margin-right: 0.5rem;
+}
+
 #userlistBox {
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;

@@ -9,7 +9,7 @@ function PVPGN(target, connect_callback, disconnect_callback, username) {
 var that = {},  // Public API interface
     ws, sQ = [],
     in_channel = [],
-    chatroom = '',
+    chatroom = [],
     state = "unconnected",
     in_channel = [];
 
@@ -73,8 +73,8 @@ function isAdmin(user) {
 	return false;
 }
 
-function updateUserlist(in_channel) {
-	chatroom = '';
+function updateUserList(in_channel) {
+	chatroom = [];
 	for (var i = 0; i < in_channel.length; i++) {
  		addToUserlist(in_channel[i]);
 	}
@@ -93,21 +93,29 @@ function addToUserlist(new_user) {
 	}
 	
 	//Add icon + username as list item to userlist
-	var new_item = 
+  let new_item_t =
 	'<li>' +
 	'<div class="user-wrap '+borderClass+'">' +
 		'<div class="user-icon-container">' +
 			'<img class="user-icon-image" src='+iconPath+'>' +
 		'</div>' +
-		'<a href="#" class="user-link">' + escapeHtml(new_user) + '</a>' +
+		'<a href="#" class="user-link"></a>' +
 		'<div class="user-icon-helper"></div>' +
 	'</div>' +
-	'</li>';
+  '</li>';
+  
+  let new_item = document.createElement("li");
+  new_item.innerHTML = new_item_t;
+  let c = document.createTextNode(new_user);
+  new_item.getElementsByClassName("user-link")[0].appendChild(c);
+
+  console.log("User in channel: "+new_user);
 	
 	if (isAdmin(new_user)) {
-		chatroom = new_item + chatroom;
-	} else {
-		chatroom = chatroom + new_item;
+		chatroom.unshift(new_item);
+  } 
+  else {
+		chatroom.push(new_item);
 	} 
 }
 
@@ -202,8 +210,8 @@ function recvMsg(msg) {
 
     // Catch all to turn anything that didn't match a regex into a yellow msg from server
     if (whisper_to == null && whisper_from == null && success == null && failed == null && joining_channel == null && empty2 == null && username2 == null && password2 == null && bot == null && sorry == null && enter == null && chat == null && is_here == null && banned == null && enters == null && error == null && leaves == null && quit == null && kicked == null) {
-      new_msg = '<span style='+Config.chat_style_server+'>' + escapeHtml(msg) + '</span>'
-      writeToChannel(new_msg);
+      let n = getSafeChatNode(msg, Config.chat_style_server);
+      writeToChannel(n);
       flag = 0;
     }
 
@@ -213,26 +221,27 @@ function recvMsg(msg) {
     }
 
     if (whisper_to != null) {
-      new_msg = '<span style='+Config.chat_style_gold+'>You whisper to ' + unescape(escapeHtml(whisper_to[1])) + ': </span><span style='+Config.chat_style_whisper+'> ' + unescape(escapeHtml(whisper_to[2])) + '</span>'
-      writeToChannel(new_msg);
+      let n1 = getSafeChatNode("You whisper to "+whisper_to[1]+":", Config.chat_style_gold);
+      writeToChannel(n1, false);
+      let n2 = getSafeChatNode(whisper_to[2], Config.chat_style_whisper);
+      writeToChannel(n2, true, false);
       whisper_to = whisper_to_regex.exec(msg);
       flag = 0;
       not_whisper = 0;
     }
 
     if (whisper_from != null) {
+      let n1, n2;
    	  if (isAdmin(whisper_from[1])) {
-   	  	new_msg = '<span style='+Config.chat_style_gold+'>' + unescape(escapeHtml(whisper_from[1])) + 
-    	' whispers: </span><span style='+Config.chat_style_admin+'> ' + 
-    	unescape(escapeHtml(whisper_from[2])) + 
-  	    '</span>'
-   	  } else {
-      	new_msg = '<span style='+Config.chat_style_gold+'>' + unescape(escapeHtml(whisper_from[1])) + 
-    	  ' whispers: </span><span style='+Config.chat_style_whisper+'> ' + 
-    	  unescape(escapeHtml(whisper_from[2])) + 
-  	    '</span>'
+        n1 = getSafeChatNode(whisper_from[1]+" whispers:", Config.chat_style_gold);
+        n2 = getSafeChatNode(whisper_from[2], Config.chat_style_admin);
+       } 
+       else {
+        n1 = getSafeChatNode(whisper_from[1]+" whispers:", Config.chat_style_gold);
+        n2 = getSafeChatNode(whisper_from[2], Config.chat_style_whisper);
   	  }
-      writeToChannel(new_msg);
+      writeToChannel(n1, false);
+      writeToChannel(n2, true, false);
       whisper_from = whisper_from_regex.exec(msg);
       flag = 0;
       not_whisper = 0;
@@ -277,8 +286,10 @@ function recvMsg(msg) {
 
     while (chat != null) {
       if (not_whisper == 1) {
-      new_msg = '<span style='+Config.chat_style_gold+'>' + escapeHtml(chat[1]) + ': </span><span style='+Config.chat_style_basic+'> ' + unescape(escapeHtml(chat[2])) + '</span>'
-      writeToChannel(new_msg);
+        let n1 = getSafeChatNode(chat[1], Config.chat_style_gold);
+        writeToChannel(n1, false);
+        let n2 = getSafeChatNode(chat[2], Config.chat_style_basic);
+        writeToChannel(n2, true, false);
       }
       chat = chat_regex.exec(msg);
       flag = 0;
@@ -313,7 +324,7 @@ function recvMsg(msg) {
         in_channel.splice(index, 1);
       }
 
-     updateUserlist(in_channel);
+     updateUserList(in_channel);
 
       kicked = kicked_regex.exec(msg);
 
@@ -327,7 +338,7 @@ function recvMsg(msg) {
         in_channel.splice(index, 1);
       }
 
-      updateUserlist(in_channel);
+      updateUserList(in_channel);
 
       banned = banned_regex.exec(msg);
 
@@ -341,7 +352,7 @@ function recvMsg(msg) {
         in_channel.splice(index, 1);
       }
 
-      updateUserlist(in_channel);
+      updateUserList(in_channel);
 
       leaves = leaves_regex.exec(msg);
 
@@ -355,7 +366,7 @@ function recvMsg(msg) {
         in_channel.splice(index, 1);
       }
 
-      updateUserlist(in_channel);
+      updateUserList(in_channel);
 
       quit = quit_regex.exec(msg);
 
@@ -364,12 +375,15 @@ function recvMsg(msg) {
 
     while (joining_channel != null) {
 
-      chatroom = ''
+      chatroom = []
 
       in_channel = [];
 
-      new_msg = '<span style='+Config.chat_style_basic+'>Joining channel: </span><span style='+Config.chat_style_gold+'>' + escapeHtml(joining_channel[1]) + '</span>'
-      writeToChannel(new_msg);
+      let n1 = getSafeChatNode("Joining channel:", Config.chat_style_basic);
+      writeToChannel(n1, false);
+      let n2 = getSafeChatNode(joining_channel[1], Config.chat_style_gold);
+      writeToChannel(n2, true, false);
+
       joining_channel = joining_channel_regex.exec(msg);
 
       flag = 0;
@@ -377,8 +391,8 @@ function recvMsg(msg) {
 
     while (error != null) {
 
-      new_msg = '<span style='+Config.chat_style_error+'>' + escapeHtml(error[1]) + '</span>'
-      writeToChannel(new_msg);
+      let n = getSafeChatNode(error[1], Config.chat_style_error);
+      writeToChannel(n);
       error = error_regex.exec(msg);
 
       flag = 0;
@@ -386,44 +400,58 @@ function recvMsg(msg) {
 
     while (broadcast != null) {
 
-      new_msg = '<span style='+Config.chat_style_admin+'>' + escapeHtml(broadcast[1]) + '</span>'
-      writeToChannel(new_msg);
+      let n = getSafeChatNode(broadcast[1], Config.chat_style_admin);
+      writeToChannel(n);
+
       broadcast = broadcast_regex.exec(msg);
 
       flag = 0;
     };
 
-    $D("chatroom-ul").innerHTML = chatroom;
+    //Display channel users
+    $D("chatroom-ul").innerHTML = '';
+
+    for (let li of chatroom) {
+      $D("chatroom-ul").appendChild(li);
+    }
+    
     // Show raw received
     if (flag == 1) {
-        writeToChannel(escapeHtml(msg));
+      let n = getSafeChatNode(msg, Config.chat_style_basic);
+      writeToChannel(n);
     }
 
 }
 
-function writeToChannel(msg) {
+function writeToChannel(chatNode, addBr = true, addTimestamp = true ) {
 
-    msgLog.push(msg);
-    var full_list = ""
-    for(var i=0; i<msgLog.length; ++i){
-          full_list = full_list + msgLog[i] + "<br>"
-    }
-    
     var chatbox = $D("chatBox");
 
-    chatbox.innerHTML = full_list;
+    if (addTimestamp) {
+      let t = document.createElement("span");
+      t.setAttribute("style", "color: #2b76ff");
+      let d = new Date();
+      t.innerHTML = "["+('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2) + ":" + ('0' + d.getSeconds()).slice(-2)+"]";
+      chatbox.appendChild(t);
+    }
+    chatbox.appendChild(chatNode);
+    
+    if (addBr) {
+      let br = document.createElement("br");
+      chatbox.appendChild(br);
+    }
+
    	chatbox.scrollTop = chatbox.scrollHeight;
     //window.scrollTo(0,document.body.scrollHeight);
 
 }
 
-function escapeHtml(unsafe) {
-    return unsafe
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;");
+function getSafeChatNode(unsafe, style) {
+    let parent = document.createElement("span");
+    parent.setAttribute("style", style);
+    let tnode = document.createTextNode(unsafe);
+    parent.appendChild(tnode);
+    return parent;
  }
 
 function sendCmd(msg) {
@@ -431,6 +459,7 @@ function sendCmd(msg) {
     sQ.pushStr(msg + "\r\n");
     do_send();
 }
+
 that.sendMsg = function(msg) {
     var write = 1;
     is_command_regex = /^\//g;
@@ -445,11 +474,13 @@ that.sendMsg = function(msg) {
     };
 
     if (write == 1) {
-      writeToChannel('<span style='+Config.chat_style_gold+'>' + username + ': </span><span style='+Config.chat_style_basic+' > ' + escapeHtml(msg) + '</span>')
+      let n1 = getSafeChatNode(username, Config.chat_style_gold);
+      writeToChannel(n1, false);
+      let n2 = getSafeChatNode(msg, Config.chat_style_basic);
+      writeToChannel(n2, true, false);
     }
     sendCmd(msg);
 }
-
 
 that.connect = function(username, password, server, channel) {
     var host = Config.websockifyHost,
@@ -483,6 +514,9 @@ that.connect = function(username, password, server, channel) {
     sendCmd("/join " + channel);
     sendCmd("\r\n");
     Util.Debug("<< connect");
+
+    //Remove password from document content
+    $D('password').value='';
 
     return true;
 }
