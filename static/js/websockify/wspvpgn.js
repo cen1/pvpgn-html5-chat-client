@@ -485,11 +485,12 @@ that.sendMsg = function(msg) {
 that.connect = function(username, password, server, channel) {
     var host = Config.websockifyHost,
         port = Config.websockifyPort,
+        configScheme = Config.websockifyScheme,
         username = username,
         password = password,
         channel = channel,
-        clientTag = '',
-        scheme = "ws://", uri;
+        clientTag = '';
+        var scheme = configScheme+"://", uri;
     
     if (channel == '') {
     	channel = 'w3';

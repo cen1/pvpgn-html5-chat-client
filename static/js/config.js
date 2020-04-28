@@ -4,6 +4,7 @@
 
  const Config = {
     //Websockify
+    websockifyScheme: "ws",
     websockifyHost: "xpam.pl",
     websockifyPort: 33333,
     
